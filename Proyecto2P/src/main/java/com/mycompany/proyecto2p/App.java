@@ -5,9 +5,11 @@
  */
 package com.mycompany.proyecto2p;
 
+import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,6 +31,7 @@ public class App extends Application {
         Parent root = fxmLoader.load();
         scene = new Scene(root, 800, 600);
         stage.setTitle("COPA MUNDIAL BRASIL 2014");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
