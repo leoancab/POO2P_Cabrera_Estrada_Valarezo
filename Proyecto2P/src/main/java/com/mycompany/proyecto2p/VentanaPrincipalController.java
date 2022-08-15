@@ -12,19 +12,20 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -73,9 +74,9 @@ public class VentanaPrincipalController implements Initializable {
             ivCopa.setFitWidth(100);
             ivCopa.setFitHeight(100);
         } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Archivo no encontrado");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error. Vuelva a intentar.");
         }
         try (FileInputStream input = new FileInputStream(App.pathImg + "campeones.jpg")) {
             Image imagen = new Image(input);
@@ -83,9 +84,9 @@ public class VentanaPrincipalController implements Initializable {
             ivCampeones.setFitWidth(600);
             ivCampeones.setFitHeight(400);
         } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Archivo no encontrado");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error. Vuelva a intentar.");
         }
 
         hbTitulo.setPrefHeight(100);
@@ -109,18 +110,28 @@ public class VentanaPrincipalController implements Initializable {
         hbBotones.getChildren().addAll(btnPartidos, btnCopas);
 
         root.getChildren().addAll(hbTitulo, hbImagen, hbBotones);
-        
+
         btnPartidos.setOnAction((ActionEvent t) -> {
-            consultaPartidos(t);
+            try {
+                consultaPartidos(t);
+            } catch (IOException ex) {
+                System.out.println("Error. Vuelva a intentar.");
+            }
         });
-        btnCopas.setOnAction((ActionEvent t)->{
+        btnCopas.setOnAction((ActionEvent t) -> {
             consultaCopas(t);
         });
     }
 
     @FXML
-    public void consultaPartidos(Event t) {
-        
+    public void consultaPartidos(Event t) throws IOException {
+        FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/ConsultaPartidos.fxml"));
+        Parent root2 = fxmLoader.load();
+        Scene scene = new Scene(root2);
+        Stage stage = new Stage();
+        stage.setTitle("CONSULTA DE PARTIDOS");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
