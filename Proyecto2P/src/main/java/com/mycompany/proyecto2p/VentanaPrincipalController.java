@@ -115,15 +115,17 @@ public class VentanaPrincipalController implements Initializable {
             try {
                 consultaPartidos(t);
             } catch (IOException ex) {
-                System.out.println("a");
-                System.out.println(ex.getMessage());
                 ex.printStackTrace();
-                System.out.println("b");
                 System.out.println("Error: Vuelva a intentar.");
             }
         });
         btnCopas.setOnAction((ActionEvent t) -> {
-            consultaCopas(t);
+            try {
+                consultaCopas(t);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.out.println("Error: Vuelva a intentar.");
+            }
         });
     }
 
@@ -139,8 +141,14 @@ public class VentanaPrincipalController implements Initializable {
     }
 
     @FXML
-    public void consultaCopas(Event t) {
-
+    public void consultaCopas(Event t) throws IOException {
+        FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/ConsultaCopas.fxml"));
+        Parent root2 = fxmLoader.load();
+        Scene scene = new Scene(root2);
+        Stage stage = new Stage();
+        stage.setTitle("CONSULTA DE COPAS MUNDIALES");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

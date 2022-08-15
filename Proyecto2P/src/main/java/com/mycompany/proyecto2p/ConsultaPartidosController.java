@@ -50,21 +50,16 @@ public class ConsultaPartidosController implements Initializable {
         cbFase.setOnAction((ActionEvent t) -> {
             llenarGrupos(t);
         });
-        System.out.println(ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv").get(0));
-        System.out.println(ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv").get(0).split("|")[8]);
-        //System.out.println(crearPartidos().get(0));
-
-        //System.out.println(crearJugadores());
-        //System.out.println(ManejoArchivos.LeeFichero("WorldCupPlayersBrasil2014.csv").get(0).split(",")[8]);
-    }
+        System.out.println(ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv").get(0).split("|")[0]);
+        }
 
     public void llenarFases() {
-        cbFase.getItems().addAll("Grupos", "Ronda de 16", "Cuartos de Final", "Semifinal", "Final");
+        cbFase.getItems().addAll("Group", "Round of 16", "Quarter-finals", "Semi-finals", "Final");
     }
 
     public void llenarGrupos(ActionEvent t) {
         String fase = cbFase.getSelectionModel().getSelectedItem();
-        if (fase.equals("Grupos")) {
+        if (fase.equals("Group")) {
             cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
         }
     }
@@ -90,7 +85,7 @@ public class ConsultaPartidosController implements Initializable {
                     linea.split("|")[1].trim(), linea.split("|")[2].trim(), linea.split("|")[3].trim(),
                     linea.split("|")[4].trim(), linea.split("|")[5].trim(),
                     Integer.parseInt(linea.split("|")[6].trim()),
-                    Integer.parseInt(linea.split("|")[7].trim()), 
+                    Integer.parseInt(linea.split("|")[7].trim()),
                     linea.split("|")[8].trim(),
                     linea.split("|")[9].trim(), Integer.parseInt(linea.split("|")[10].trim()),
                     Integer.parseInt(linea.split("|")[11].trim()),
@@ -101,5 +96,15 @@ public class ConsultaPartidosController implements Initializable {
                     linea.split("|")[18].trim(), linea.split("|")[19].trim()));
         });
         return partidos;
+    }
+
+    public ArrayList<String> equipos1(ArrayList<Partido> partidos) {
+        ArrayList<String> listaEquipo1 = new ArrayList<>();
+        partidos.forEach(p -> {
+            if (!listaEquipo1.contains(p.getLocal())) {
+                listaEquipo1.add(p.getLocal());
+            }
+        });
+        return listaEquipo1;
     }
 }
