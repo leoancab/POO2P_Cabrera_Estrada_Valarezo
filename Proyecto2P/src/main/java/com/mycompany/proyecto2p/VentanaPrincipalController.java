@@ -115,7 +115,11 @@ public class VentanaPrincipalController implements Initializable {
             try {
                 consultaPartidos(t);
             } catch (IOException ex) {
-                System.out.println("Error. Vuelva a intentar.");
+                System.out.println("a");
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+                System.out.println("b");
+                System.out.println("Error: Vuelva a intentar.");
             }
         });
         btnCopas.setOnAction((ActionEvent t) -> {

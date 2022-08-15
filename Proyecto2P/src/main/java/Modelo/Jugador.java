@@ -14,13 +14,13 @@ public class Jugador {
     private int matchID;
     private String inicialesEquipo;
     private String entrenador;
-    private char alineacion;
+    private String alineacion;
     private int numero;
     private String nombre;
     private String posicion;
     private String evento;
 
-    public Jugador(int roundID, int matchID, String inicialesEquipo, String entrenador, char alineacion, int numero, String nombre, String posicion, String evento) {
+    public Jugador(int roundID, int matchID, String inicialesEquipo, String entrenador, String alineacion, int numero, String nombre, String posicion, String evento) {
         this.roundID = roundID;
         this.matchID = matchID;
         this.inicialesEquipo = inicialesEquipo;
@@ -64,11 +64,11 @@ public class Jugador {
         this.entrenador = entrenador;
     }
 
-    public char getAlineacion() {
+    public String getAlineacion() {
         return alineacion;
     }
 
-    public void setAlineacion(char alineacion) {
+    public void setAlineacion(String alineacion) {
         this.alineacion = alineacion;
     }
 
