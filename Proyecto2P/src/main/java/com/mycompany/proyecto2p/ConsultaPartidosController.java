@@ -5,18 +5,12 @@
 package com.mycompany.proyecto2p;
 
 import Modelo.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
@@ -37,6 +31,8 @@ public class ConsultaPartidosController implements Initializable {
     private ComboBox<String> cbEquipo1;
     @FXML
     private ComboBox<String> cbEquipo2;
+    @FXML
+    private Button btnConsultar;
 
     /**
      * Initializes the controller class.
@@ -47,21 +43,85 @@ public class ConsultaPartidosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarFases();
-        cbFase.setOnAction((ActionEvent t) -> {
-            llenarGrupos(t);
+        cbFase.setOnAction(t -> {
+            cbGrupo.getItems().clear();
+            cbEquipo1.getItems().clear();
+            cbEquipo2.getItems().clear();
+            String faseSelecc = cbFase.getValue();
+            if (faseSelecc.equals("Group")) {
+                llenarGrupos();
+                cbGrupo.setOnAction(e -> {
+                    ArrayList<String> equiposLocal = new ArrayList<>();
+                    cbEquipo1.getItems().clear();
+                    cbEquipo2.getItems().clear();
+                    String grupoSelecc = cbGrupo.getValue();
+                    for (Partido p : crearPartidos()) {
+                        if (p.getGrupo().split(" ")[0].equals("Group")) {
+                            if (p.getGrupo().split(" ")[1].equals(grupoSelecc)) {
+                                if (!equiposLocal.contains(p.getLocal())) {
+                                    equiposLocal.add(p.getLocal());
+                                }
+                            }
+                        }
+                    }
+                    cbEquipo1.getItems().addAll(equiposLocal);
+                    cbEquipo1.setOnAction(f -> {
+                        ArrayList<String> equiposVisita = new ArrayList<>();
+                        cbEquipo2.getItems().clear();
+                        String equipoSelecc = cbEquipo1.getValue();
+                        for (Partido p : crearPartidos()) {
+                            if (p.getGrupo().split(" ")[0].equals("Group")) {
+                                if (p.getGrupo().split(" ")[1].equals(grupoSelecc)) {
+                                    if (!equiposVisita.contains(p.getVisitante())) {
+                                        if (!p.getVisitante().equals(equipoSelecc)) {
+                                            equiposVisita.add(p.getVisitante());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        cbEquipo2.getItems().addAll(equiposVisita);
+                    });
+                });
+            } else if (!faseSelecc.equals("Group")) {
+                ArrayList<String> equiposLocal = new ArrayList<>();
+                cbEquipo1.getItems().clear();
+                cbEquipo2.getItems().clear();
+                for (Partido p : crearPartidos()) {
+                    if (p.getGrupo().equals(faseSelecc)) {
+                        if (!equiposLocal.contains(p.getLocal())) {
+                            equiposLocal.add(p.getLocal());
+                        }
+                    }
+                }
+                cbEquipo1.getItems().addAll(equiposLocal);
+                cbEquipo1.setOnAction(g -> {
+                    ArrayList<String> equiposVisita = new ArrayList<>();
+                    cbEquipo2.getItems().clear();
+                    String equipoSelecc = cbEquipo1.getValue();
+                    for (Partido p : crearPartidos()) {
+                        if (p.getGrupo().equals(faseSelecc)) {
+                            if (!equiposVisita.contains(p.getVisitante())) {
+                                if (!p.getVisitante().equals(equipoSelecc)) {
+                                    equiposVisita.add(p.getVisitante());
+                                }
+                            }
+                        }
+                    }
+                    cbEquipo2.getItems().addAll(equiposVisita);
+                });
+            }
         });
-        System.out.println(ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv").get(0).split("|")[0]);
-        }
+        btnConsultar.setOnAction(t -> {
+        });
+    }
 
     public void llenarFases() {
         cbFase.getItems().addAll("Group", "Round of 16", "Quarter-finals", "Semi-finals", "Final");
     }
 
-    public void llenarGrupos(ActionEvent t) {
-        String fase = cbFase.getSelectionModel().getSelectedItem();
-        if (fase.equals("Group")) {
-            cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
-        }
+    public void llenarGrupos() {
+        cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
     }
 
     public ArrayList<Jugador> crearJugadores() {
@@ -81,30 +141,18 @@ public class ConsultaPartidosController implements Initializable {
         ArrayList<Partido> partidos = new ArrayList<>();
         ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
         listaPartidos.forEach(linea -> {
-            partidos.add(new Partido(Integer.parseInt(linea.split("|")[0].trim()),
-                    linea.split("|")[1].trim(), linea.split("|")[2].trim(), linea.split("|")[3].trim(),
-                    linea.split("|")[4].trim(), linea.split("|")[5].trim(),
-                    Integer.parseInt(linea.split("|")[6].trim()),
-                    Integer.parseInt(linea.split("|")[7].trim()),
-                    linea.split("|")[8].trim(),
-                    linea.split("|")[9].trim(), Integer.parseInt(linea.split("|")[10].trim()),
-                    Integer.parseInt(linea.split("|")[11].trim()),
-                    Integer.parseInt(linea.split("|")[12].trim()), linea.split("|")[13].trim(),
-                    linea.split("|")[14].trim(), linea.split("|")[15].trim(),
-                    Integer.parseInt(linea.split("|")[16].trim()),
-                    Integer.parseInt(linea.split("|")[17].trim()),
-                    linea.split("|")[18].trim(), linea.split("|")[19].trim()));
+            partidos.add(new Partido(linea.split(",")[0].trim(),
+                    linea.split(",")[1].trim(), linea.split(",")[2].trim(),
+                    linea.split(",")[3].trim(), linea.split(",")[4].trim(),
+                    linea.split(",")[5].trim(), linea.split(",")[6].trim(),
+                    linea.split(",")[7].trim(), linea.split(",")[8].trim(),
+                    linea.split(",")[9].trim(), linea.split(",")[10].trim(),
+                    linea.split(",")[11].trim(), linea.split(",")[12].trim(),
+                    linea.split(",")[13].trim(), linea.split(",")[14].trim(),
+                    linea.split(",")[15].trim(), linea.split(",")[16].trim(),
+                    linea.split(",")[17].trim(), linea.split(",")[18].trim(),
+                    linea.split(",")[19].trim()));
         });
         return partidos;
-    }
-
-    public ArrayList<String> equipos1(ArrayList<Partido> partidos) {
-        ArrayList<String> listaEquipo1 = new ArrayList<>();
-        partidos.forEach(p -> {
-            if (!listaEquipo1.contains(p.getLocal())) {
-                listaEquipo1.add(p.getLocal());
-            }
-        });
-        return listaEquipo1;
     }
 }

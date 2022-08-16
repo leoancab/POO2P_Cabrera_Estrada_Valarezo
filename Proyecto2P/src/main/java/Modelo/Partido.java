@@ -10,28 +10,28 @@ package Modelo;
  */
 public class Partido {
 
-    private int year;
+    private String year;
     private String dateTime;
     private String grupo;
     private String estadio;
     private String ciudad;
     private String local;
-    private int golesLocalTotal;
-    private int golesVisitaTotal;
+    private String golesLocalTotal;
+    private String golesVisitaTotal;
     private String visitante;
     private String condicionVictoria;
-    private int asistencia;
-    private int golesLocalMT;
-    private int golesVisitaMT;
+    private String asistencia;
+    private String golesLocalMT;
+    private String golesVisitaMT;
     private String arbitro;
     private String asistente1;
     private String asistente2;
-    private int roundID;
-    private int matchID;
+    private String roundID;
+    private String matchID;
     private String inicialLocal;
     private String inicialVisita;
 
-    public Partido(int year, String dateTime, String grupo, String estadio, String ciudad, String local, int golesLocalTotal, int golesVisitaTotal, String visitante, String condicionVictoria, int asistencia, int golesLocalMT, int golesVisitaMT, String arbitro, String asistente1, String asistente2, int roundID, int matchID, String inicialLocal, String inicialVisita) {
+    public Partido(String year, String dateTime, String grupo, String estadio, String ciudad, String local, String golesLocalTotal, String golesVisitaTotal, String visitante, String condicionVictoria, String asistencia, String golesLocalMT, String golesVisitaMT, String arbitro, String asistente1, String asistente2, String roundID, String matchID, String inicialLocal, String inicialVisita) {
         this.year = year;
         this.dateTime = dateTime;
         this.grupo = grupo;
@@ -54,11 +54,11 @@ public class Partido {
         this.inicialVisita = inicialVisita;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -102,19 +102,19 @@ public class Partido {
         this.local = local;
     }
 
-    public int getGolesLocalTotal() {
+    public String getGolesLocalTotal() {
         return golesLocalTotal;
     }
 
-    public void setGolesLocalTotal(int golesLocalTotal) {
+    public void setGolesLocalTotal(String golesLocalTotal) {
         this.golesLocalTotal = golesLocalTotal;
     }
 
-    public int getGolesVisitaTotal() {
+    public String getGolesVisitaTotal() {
         return golesVisitaTotal;
     }
 
-    public void setGolesVisitaTotal(int golesVisitaTotal) {
+    public void setGolesVisitaTotal(String golesVisitaTotal) {
         this.golesVisitaTotal = golesVisitaTotal;
     }
 
@@ -134,27 +134,27 @@ public class Partido {
         this.condicionVictoria = condicionVictoria;
     }
 
-    public int getAsistencia() {
+    public String getAsistencia() {
         return asistencia;
     }
 
-    public void setAsistencia(int asistencia) {
+    public void setAsistencia(String asistencia) {
         this.asistencia = asistencia;
     }
 
-    public int getGolesLocalMT() {
+    public String getGolesLocalMT() {
         return golesLocalMT;
     }
 
-    public void setGolesLocalMT(int golesLocalMT) {
+    public void setGolesLocalMT(String golesLocalMT) {
         this.golesLocalMT = golesLocalMT;
     }
 
-    public int getGolesVisitaMT() {
+    public String getGolesVisitaMT() {
         return golesVisitaMT;
     }
 
-    public void setGolesVisitaMT(int golesVisitaMT) {
+    public void setGolesVisitaMT(String golesVisitaMT) {
         this.golesVisitaMT = golesVisitaMT;
     }
 
@@ -182,19 +182,19 @@ public class Partido {
         this.asistente2 = asistente2;
     }
 
-    public int getRoundID() {
+    public String getRoundID() {
         return roundID;
     }
 
-    public void setRoundID(int roundID) {
+    public void setRoundID(String roundID) {
         this.roundID = roundID;
     }
 
-    public int getMatchID() {
+    public String getMatchID() {
         return matchID;
     }
 
-    public void setMatchID(int matchID) {
+    public void setMatchID(String matchID) {
         this.matchID = matchID;
     }
 
