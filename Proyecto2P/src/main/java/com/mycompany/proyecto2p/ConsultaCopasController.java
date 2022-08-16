@@ -50,10 +50,6 @@ public class ConsultaCopasController implements Initializable {
     private Button btnConsultar;
     @FXML
     private HBox hbDatos;
-//    @FXML
-//    private VBox vbCopas;
-//    @FXML
-//    private VBox vbPaises;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,7 +74,10 @@ public class ConsultaCopasController implements Initializable {
         hbConsultar.setSpacing(20);
         hbConsultar.setPrefHeight(50);
 
-        root.getChildren().addAll(hbTitulo, hbConsultar);
+        hbDatos = new HBox();
+        hbDatos.setPrefHeight(300);
+
+        root.getChildren().addAll(hbTitulo, hbConsultar, hbDatos);
         btnConsultar.setOnAction((ActionEvent t) -> {
             obtenerMundial(t);
         });
@@ -98,7 +97,7 @@ public class ConsultaCopasController implements Initializable {
     }
 
     public void obtenerMundial(ActionEvent t) {
-        hbDatos = new HBox();
+        hbDatos.getChildren().clear();
         if (!listaAños().contains(tfYear.getText())) {
             añoIncorrecto();
         }
@@ -112,31 +111,55 @@ public class ConsultaCopasController implements Initializable {
                 Label lbEquipos = new Label(String.valueOf(c.getEquiposCalificados()));
                 Label lbPartidos = new Label(String.valueOf(c.getPartidosJugados()));
                 Label lbAsistencia = new Label(c.getAsistencia());
+
                 VBox vbPremios = new VBox();
+                VBox vbDatos = new VBox();
+
                 Label lbPremio = new Label("Premios");
                 lbPremio.setFont(new Font(20));
+                lbPremio.setPrefHeight(20);
+
+                HBox hbPosicion = new HBox();
+
+                Label lbDatos = new Label("Datos Generales");
+                lbDatos.setFont(new Font(20));
+                vbDatos.getChildren().addAll(lbDatos,
+                        new Label("Goles anotados: " + lbGoles.getText()),
+                        new Label("Equipos: " + lbEquipos.getText()),
+                        new Label("Partidos jugados: " + lbPartidos.getText()),
+                        new Label("Asistencia: " + lbAsistencia.getText()));
+                vbDatos.setPrefWidth(200);
+                vbDatos.setSpacing(10);
+
                 VBox vbPosiciones = new VBox();
                 VBox vbPaises = new VBox();
-                lbPremio.setPrefHeight(20);
-                vbPosiciones.setPrefHeight(80);
-                vbPaises.setPrefHeight(80);
+                VBox vbCopas = new VBox();
+                vbPosiciones.setPrefWidth(100);
+                vbPaises.setPrefWidth(100);
+                vbCopas.setPrefWidth(200);
+                vbPosiciones.setSpacing(10);
+                vbPaises.setSpacing(10);
+                vbCopas.setSpacing(10);
                 vbPosiciones.getChildren().addAll(new Label("Ganador"), new Label("Segundo"), new Label("Tercero"), new Label("Cuarto"));
-                root.getChildren().add(vbPosiciones);
-                vbPaises.getChildren().addAll(lbGanador, lbSegundo, lbTercero, lbCuarto);
-                HBox hbPosicion = new HBox();
-                hbPosicion.getChildren().addAll(vbPosiciones, vbPaises);
-                hbDatos.getChildren().add(hbPosicion);
-                vbPremios.getChildren().addAll(lbPremio, hbDatos);
-                vbPosiciones.setStyle("-fx-background-color:blue;");
-                vbPaises.setStyle("-fx-background-color:green;");
-                hbPosicion.setStyle("-fx-background-color:red;");
-                vbPremios.setStyle("-fx-background-color:purple;");
-                root.getChildren().add(vbPremios);
-                //imagenesCopa(obtenerCantidadCopas(lbGanador.getText()));
+
+                obtenerBandera(lbGanador, vbPaises);
+                obtenerBandera(lbSegundo, vbPaises);
+                obtenerBandera(lbTercero, vbPaises);
+                obtenerBandera(lbCuarto, vbPaises);
+
+                hbPosicion.getChildren().addAll(vbPosiciones, vbPaises, vbCopas);
+                vbPremios.getChildren().addAll(lbPremio, hbPosicion);
+
+                imagenesCopa(obtenerCantidadCopas(lbGanador.getText()), vbCopas);
+                imagenesCopa(obtenerCantidadCopas(lbSegundo.getText()), vbCopas);
+                imagenesCopa(obtenerCantidadCopas(lbTercero.getText()), vbCopas);
+                imagenesCopa(obtenerCantidadCopas(lbCuarto.getText()), vbCopas);
+
+                hbDatos.getChildren().addAll(vbPremios, vbDatos);
             }
         });
         tfYear.clear();
-        hbDatos.getChildren().clear();
+
     }
 
     public ArrayList<String> listaAños() {
@@ -161,6 +184,7 @@ public class ConsultaCopasController implements Initializable {
 
     public void imagenesCopa(int cantidadCopas, VBox vbCopas) {
         HBox hbCopas = new HBox();
+        hbCopas.setPrefHeight(20);
         for (int i = 0; i < cantidadCopas; i++) {
             ImageView ivCopas = null;
             try (FileInputStream input = new FileInputStream(App.pathImg + "copaMundial.jpg")) {
@@ -181,8 +205,28 @@ public class ConsultaCopasController implements Initializable {
     public void añoIncorrecto() {
         Alert info = new Alert(Alert.AlertType.ERROR);
         info.setTitle("AÑO INCORRECTO");
-        info.setHeaderText("No hubo una copa mundial en ese año.");
+        info.setHeaderText("Año no encontrado.");
         info.setContentText("Vuelva a intentar.");
         info.showAndWait();
+    }
+
+    public void obtenerBandera(Label equipo, VBox vbPaises) {
+        HBox hbBandera = new HBox();
+        hbBandera.setSpacing(5);
+        ImageView ivBandera = null;
+        try (FileInputStream input = new FileInputStream(App.pathImg + equipo.getText() + ".jpg")) {
+            ivBandera = new ImageView();
+            Image imBandera = new Image(input);
+            ivBandera.setImage(imBandera);
+            ivBandera.setFitWidth(20);
+            ivBandera.setFitHeight(20);
+            hbBandera.getChildren().add(ivBandera);
+        } catch (FileNotFoundException e) {
+            System.out.println("Imagen no encontrada.");
+        } catch (IOException e) {
+            System.out.println("Error. Vuelva a intentar.");
+        }
+        hbBandera.getChildren().add(equipo);
+        vbPaises.getChildren().add(hbBandera);
     }
 }
