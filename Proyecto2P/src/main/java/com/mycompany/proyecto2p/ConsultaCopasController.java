@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -47,6 +48,12 @@ public class ConsultaCopasController implements Initializable {
     private TextField tfYear;
     @FXML
     private Button btnConsultar;
+    @FXML
+    private HBox hbDatos;
+//    @FXML
+//    private VBox vbCopas;
+//    @FXML
+//    private VBox vbPaises;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -56,6 +63,7 @@ public class ConsultaCopasController implements Initializable {
         lbYear = new Label("Año:");
         tfYear = new TextField();
         btnConsultar = new Button("CONSULTAR");
+        //hbDatos = new HBox();
 
         hbTitulo.getChildren().add(lbTitulo);
         lbTitulo.setFont(new Font(24));
@@ -90,6 +98,10 @@ public class ConsultaCopasController implements Initializable {
     }
 
     public void obtenerMundial(ActionEvent t) {
+        hbDatos = new HBox();
+        if (!listaAños().contains(tfYear.getText())) {
+            añoIncorrecto();
+        }
         crearCopas().forEach(c -> {
             if (tfYear.getText().equals(c.getYear())) {
                 Label lbGanador = new Label(c.getGanador());
@@ -100,10 +112,41 @@ public class ConsultaCopasController implements Initializable {
                 Label lbEquipos = new Label(String.valueOf(c.getEquiposCalificados()));
                 Label lbPartidos = new Label(String.valueOf(c.getPartidosJugados()));
                 Label lbAsistencia = new Label(c.getAsistencia());
-                imagenesCopa(obtenerCantidadCopas(lbGanador.getText()));
+                VBox vbPremios = new VBox();
+                Label lbPremio = new Label("Premios");
+                lbPremio.setFont(new Font(20));
+                VBox vbPosiciones = new VBox();
+                VBox vbPaises = new VBox();
+                lbPremio.setPrefHeight(20);
+                vbPosiciones.setPrefHeight(80);
+                vbPaises.setPrefHeight(80);
+                vbPosiciones.getChildren().addAll(new Label("Ganador"), new Label("Segundo"), new Label("Tercero"), new Label("Cuarto"));
+                root.getChildren().add(vbPosiciones);
+                vbPaises.getChildren().addAll(lbGanador, lbSegundo, lbTercero, lbCuarto);
+                HBox hbPosicion = new HBox();
+                hbPosicion.getChildren().addAll(vbPosiciones, vbPaises);
+                hbDatos.getChildren().add(hbPosicion);
+                vbPremios.getChildren().addAll(lbPremio, hbDatos);
+                vbPosiciones.setStyle("-fx-background-color:blue;");
+                vbPaises.setStyle("-fx-background-color:green;");
+                hbPosicion.setStyle("-fx-background-color:red;");
+                vbPremios.setStyle("-fx-background-color:purple;");
+                root.getChildren().add(vbPremios);
+                //imagenesCopa(obtenerCantidadCopas(lbGanador.getText()));
             }
         });
         tfYear.clear();
+        hbDatos.getChildren().clear();
+    }
+
+    public ArrayList<String> listaAños() {
+        ArrayList<String> years = new ArrayList<>();
+        crearCopas().forEach(c -> {
+            if (!years.contains(c.getYear())) {
+                years.add(c.getYear());
+            }
+        });
+        return years;
     }
 
     public int obtenerCantidadCopas(String equipo) {
@@ -116,7 +159,7 @@ public class ConsultaCopasController implements Initializable {
         return copas;
     }
 
-    public void imagenesCopa(int cantidadCopas) {
+    public void imagenesCopa(int cantidadCopas, VBox vbCopas) {
         HBox hbCopas = new HBox();
         for (int i = 0; i < cantidadCopas; i++) {
             ImageView ivCopas = null;
@@ -132,6 +175,14 @@ public class ConsultaCopasController implements Initializable {
                 System.out.println("Error. Vuelva a intentar.");
             }
         }
-        root.getChildren().add(hbCopas);
+        vbCopas.getChildren().add(hbCopas);
+    }
+
+    public void añoIncorrecto() {
+        Alert info = new Alert(Alert.AlertType.ERROR);
+        info.setTitle("AÑO INCORRECTO");
+        info.setHeaderText("No hubo una copa mundial en ese año.");
+        info.setContentText("Vuelva a intentar.");
+        info.showAndWait();
     }
 }
