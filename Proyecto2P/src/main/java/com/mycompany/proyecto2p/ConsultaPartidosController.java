@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -42,6 +45,59 @@ public class ConsultaPartidosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        llenarEquipos();
+        btnConsultar.setOnAction(t -> {
+            VBox vbResultados = new VBox();
+            VBox vbDatosPartido=new VBox();
+            Label lbResultado = new Label("Resultado del partido");
+            lbResultado.setFont(new Font(14));
+            vbResultados.getChildren().add(lbResultado);
+            vbResultados.setAlignment(Pos.CENTER);
+            root.getChildren().add(vbResultados);
+        });
+    }
+
+    public void llenarFases() {
+        cbFase.getItems().addAll("Group", "Round of 16", "Quarter-finals", "Semi-finals", "Final");
+    }
+
+    public void llenarGrupos() {
+        cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
+    }
+
+    public ArrayList<Jugador> crearJugadores() {
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        ArrayList<String> listaJugadores = ManejoArchivos.LeeFichero("WorldCupPlayersBrasil2014.csv");
+        listaJugadores.forEach(linea -> {
+            jugadores.add(new Jugador(Integer.parseInt(linea.split(",")[0].trim()),
+                    Integer.parseInt(linea.split(",")[1].trim()), linea.split(",")[2].trim(),
+                    linea.split(",")[3].trim(), linea.split(",")[4].trim(),
+                    Integer.parseInt(linea.split(",")[5].trim()), linea.split(",")[6].trim(),
+                    linea.split(",")[7].trim(), linea.split(",")[8].trim()));
+        });
+        return jugadores;
+    }
+
+    public ArrayList<Partido> crearPartidos() {
+        ArrayList<Partido> partidos = new ArrayList<>();
+        ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
+        listaPartidos.forEach(linea -> {
+            partidos.add(new Partido(linea.split(",")[0].trim(),
+                    linea.split(",")[1].trim(), linea.split(",")[2].trim(),
+                    linea.split(",")[3].trim(), linea.split(",")[4].trim(),
+                    linea.split(",")[5].trim(), linea.split(",")[6].trim(),
+                    linea.split(",")[7].trim(), linea.split(",")[8].trim(),
+                    linea.split(",")[9].trim(), linea.split(",")[10].trim(),
+                    linea.split(",")[11].trim(), linea.split(",")[12].trim(),
+                    linea.split(",")[13].trim(), linea.split(",")[14].trim(),
+                    linea.split(",")[15].trim(), linea.split(",")[16].trim(),
+                    linea.split(",")[17].trim(), linea.split(",")[18].trim(),
+                    linea.split(",")[19].trim()));
+        });
+        return partidos;
+    }
+
+    public void llenarEquipos() {
         llenarFases();
         cbFase.setOnAction(t -> {
             cbGrupo.getItems().clear();
@@ -112,47 +168,5 @@ public class ConsultaPartidosController implements Initializable {
                 });
             }
         });
-        btnConsultar.setOnAction(t -> {
-        });
-    }
-
-    public void llenarFases() {
-        cbFase.getItems().addAll("Group", "Round of 16", "Quarter-finals", "Semi-finals", "Final");
-    }
-
-    public void llenarGrupos() {
-        cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
-    }
-
-    public ArrayList<Jugador> crearJugadores() {
-        ArrayList<Jugador> jugadores = new ArrayList<>();
-        ArrayList<String> listaJugadores = ManejoArchivos.LeeFichero("WorldCupPlayersBrasil2014.csv");
-        listaJugadores.forEach(linea -> {
-            jugadores.add(new Jugador(Integer.parseInt(linea.split(",")[0].trim()),
-                    Integer.parseInt(linea.split(",")[1].trim()), linea.split(",")[2].trim(),
-                    linea.split(",")[3].trim(), linea.split(",")[4].trim(),
-                    Integer.parseInt(linea.split(",")[5].trim()), linea.split(",")[6].trim(),
-                    linea.split(",")[7].trim(), linea.split(",")[8].trim()));
-        });
-        return jugadores;
-    }
-
-    public ArrayList<Partido> crearPartidos() {
-        ArrayList<Partido> partidos = new ArrayList<>();
-        ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
-        listaPartidos.forEach(linea -> {
-            partidos.add(new Partido(linea.split(",")[0].trim(),
-                    linea.split(",")[1].trim(), linea.split(",")[2].trim(),
-                    linea.split(",")[3].trim(), linea.split(",")[4].trim(),
-                    linea.split(",")[5].trim(), linea.split(",")[6].trim(),
-                    linea.split(",")[7].trim(), linea.split(",")[8].trim(),
-                    linea.split(",")[9].trim(), linea.split(",")[10].trim(),
-                    linea.split(",")[11].trim(), linea.split(",")[12].trim(),
-                    linea.split(",")[13].trim(), linea.split(",")[14].trim(),
-                    linea.split(",")[15].trim(), linea.split(",")[16].trim(),
-                    linea.split(",")[17].trim(), linea.split(",")[18].trim(),
-                    linea.split(",")[19].trim()));
-        });
-        return partidos;
     }
 }
