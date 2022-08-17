@@ -8,12 +8,16 @@ import Modelo.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -23,7 +27,7 @@ import javafx.scene.text.Font;
  * @author leoan
  */
 public class ConsultaPartidosController implements Initializable {
-
+    
     @FXML
     private VBox root;
     @FXML
@@ -36,6 +40,8 @@ public class ConsultaPartidosController implements Initializable {
     private ComboBox<String> cbEquipo2;
     @FXML
     private Button btnConsultar;
+    @FXML
+    private VBox vbResultados;
 
     /**
      * Initializes the controller class.
@@ -46,25 +52,45 @@ public class ConsultaPartidosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarEquipos();
-        btnConsultar.setOnAction(t -> {
-            VBox vbResultados = new VBox();
-            VBox vbDatosPartido=new VBox();
-            Label lbResultado = new Label("Resultado del partido");
-            lbResultado.setFont(new Font(14));
-            vbResultados.getChildren().add(lbResultado);
-            vbResultados.setAlignment(Pos.CENTER);
-            root.getChildren().add(vbResultados);
+        btnConsultar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                vbResultados.getChildren().clear();
+                if (cbFase.getValue() == null || cbEquipo1.getValue() == null || cbEquipo2.getValue() == null) {
+                    camposVacios();
+                } else {
+                    
+                    HBox hbMostranDatos = new HBox();
+                    VBox vbDatosPartido = new VBox();
+                    Label lbResultado = new Label("Resultado del partido");
+                    lbResultado.setFont(new Font(14));
+                    vbResultados.getChildren().add(lbResultado);
+                    vbResultados.setAlignment(Pos.TOP_CENTER);
+                    for (int p = 0; p < crearPartidos().size(); p++) {
+                        if (crearPartidos().get(p).getLocal().equals(cbEquipo1.getValue()) && crearPartidos().get(p).getVisitante().equals(cbEquipo2.getValue())) {
+                            Partido partidoSelecc = crearPartidos().get(p);
+//                            if (!partidoSelecc.equals(crearPartidos().get(p))) {
+//                                partidoSelecc = crearPartidos().get(p);
+//                            }
+                            vbDatosPartido.getChildren().addAll(new Label(partidoSelecc.getDateTime()), new Label(partidoSelecc.getGrupo()), new Label(partidoSelecc.getEstadio()), new Label(partidoSelecc.getCiudad()));
+                            hbMostranDatos.getChildren().add(vbDatosPartido);
+                            vbResultados.getChildren().add(hbMostranDatos);
+                        }
+                    }
+                    
+                }
+            }
         });
     }
-
+    
     public void llenarFases() {
         cbFase.getItems().addAll("Group", "Round of 16", "Quarter-finals", "Semi-finals", "Final");
     }
-
+    
     public void llenarGrupos() {
         cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
     }
-
+    
     public ArrayList<Jugador> crearJugadores() {
         ArrayList<Jugador> jugadores = new ArrayList<>();
         ArrayList<String> listaJugadores = ManejoArchivos.LeeFichero("WorldCupPlayersBrasil2014.csv");
@@ -77,7 +103,7 @@ public class ConsultaPartidosController implements Initializable {
         });
         return jugadores;
     }
-
+    
     public ArrayList<Partido> crearPartidos() {
         ArrayList<Partido> partidos = new ArrayList<>();
         ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
@@ -96,13 +122,14 @@ public class ConsultaPartidosController implements Initializable {
         });
         return partidos;
     }
-
+    
     public void llenarEquipos() {
         llenarFases();
         cbFase.setOnAction(t -> {
             cbGrupo.getItems().clear();
             cbEquipo1.getItems().clear();
             cbEquipo2.getItems().clear();
+            vbResultados.getChildren().clear();
             String faseSelecc = cbFase.getValue();
             if (faseSelecc.equals("Group")) {
                 llenarGrupos();
@@ -110,6 +137,7 @@ public class ConsultaPartidosController implements Initializable {
                     ArrayList<String> equiposLocal = new ArrayList<>();
                     cbEquipo1.getItems().clear();
                     cbEquipo2.getItems().clear();
+                    vbResultados.getChildren().clear();
                     String grupoSelecc = cbGrupo.getValue();
                     for (Partido p : crearPartidos()) {
                         if (p.getGrupo().split(" ")[0].equals("Group")) {
@@ -124,6 +152,7 @@ public class ConsultaPartidosController implements Initializable {
                     cbEquipo1.setOnAction(f -> {
                         ArrayList<String> equiposVisita = new ArrayList<>();
                         cbEquipo2.getItems().clear();
+                        vbResultados.getChildren().clear();
                         String equipoSelecc = cbEquipo1.getValue();
                         for (Partido p : crearPartidos()) {
                             if (p.getGrupo().split(" ")[0].equals("Group")) {
@@ -136,6 +165,9 @@ public class ConsultaPartidosController implements Initializable {
                                 }
                             }
                         }
+                        cbEquipo2.setOnAction(h -> {
+                            vbResultados.getChildren().clear();
+                        });
                         cbEquipo2.getItems().addAll(equiposVisita);
                     });
                 });
@@ -143,6 +175,7 @@ public class ConsultaPartidosController implements Initializable {
                 ArrayList<String> equiposLocal = new ArrayList<>();
                 cbEquipo1.getItems().clear();
                 cbEquipo2.getItems().clear();
+                vbResultados.getChildren().clear();
                 for (Partido p : crearPartidos()) {
                     if (p.getGrupo().equals(faseSelecc)) {
                         if (!equiposLocal.contains(p.getLocal())) {
@@ -154,6 +187,7 @@ public class ConsultaPartidosController implements Initializable {
                 cbEquipo1.setOnAction(g -> {
                     ArrayList<String> equiposVisita = new ArrayList<>();
                     cbEquipo2.getItems().clear();
+                    vbResultados.getChildren().clear();
                     String equipoSelecc = cbEquipo1.getValue();
                     for (Partido p : crearPartidos()) {
                         if (p.getGrupo().equals(faseSelecc)) {
@@ -164,9 +198,20 @@ public class ConsultaPartidosController implements Initializable {
                             }
                         }
                     }
+                    cbEquipo2.setOnAction(h -> {
+                        vbResultados.getChildren().clear();
+                    });
                     cbEquipo2.getItems().addAll(equiposVisita);
                 });
             }
         });
+    }
+    
+    public void camposVacios() {
+        Alert info = new Alert(Alert.AlertType.ERROR);
+        info.setTitle("CAMPOS IMCOMPLETOS");
+        info.setHeaderText("Faltan campos por escoger.");
+        info.setContentText("Vuelva a intentar.");
+        info.showAndWait();
     }
 }
