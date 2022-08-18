@@ -7,16 +7,15 @@ package com.mycompany.proyecto2p;
 import Modelo.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -27,7 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -50,6 +48,7 @@ public class ConsultaPartidosController implements Initializable {
     private Button btnConsultar;
     @FXML
     private VBox vbResultados;
+    public ArrayList<Jugador> jugadoresPartido = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -241,7 +240,7 @@ public class ConsultaPartidosController implements Initializable {
                             new Label(partidoSelecc.getCiudad()));
                     hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), puntuacionPartido(partidoSelecc), equipoPartido(partidoSelecc.getVisitante()));
                     vbResultados.getChildren().addAll(lbResultado, hbMostranDatos, vbBotones);
-                    exportarGrupo(btnExportarResultados);
+                    confirmacion(btnExportarResultados);
                 } else {
                     partidoNoEncontrado();
                 }
@@ -282,19 +281,61 @@ public class ConsultaPartidosController implements Initializable {
         return vbR;
     }
 
-    public void exportarGrupo(Button b) {
-        b.setOnAction(p -> {
-            try {
-                FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/ExportarGrupo.fxml"));
-                Parent root2 = fxmLoader.load();
-                Scene scene = new Scene(root2);
-                Stage stage = new Stage();
-                stage.setResizable(false);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+    public void confirmacion(Button b) {
+        b.setOnAction(c -> {
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("CONFIRMACION");
+            alerta.setHeaderText("Esta seguro de que desea exportar el grupo de jugadores?");
+            alerta.showAndWait();
+            if (alerta.getResult().getText().equals("Aceptar")) {
+                obtenerJugadoresPartido();
+                serializarJugadores();
+            } else {
+                alerta.close();
             }
         });
+    }
+
+    public void obtenerJugadoresPartido() {
+        if (cbFase.getValue().equals("Group")) {
+            String grupoSelecc = cbGrupo.getValue();
+            for (Jugador j : crearJugadores()) {
+                for (Partido p : crearPartidos()) {
+                    if (p.getGrupo().equals(cbFase + " " + grupoSelecc)) {
+                        if (p.getLocal().equals(cbEquipo1.getValue()) && p.getVisitante().equals(cbEquipo2.getValue())) {
+                            if (p.getMatchID().equals(j.getMatchID())) {
+                                if (!jugadoresPartido.contains(j)) {
+                                    jugadoresPartido.add(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (!cbFase.getValue().equals("Group")) {
+            for (Jugador j : crearJugadores()) {
+                for (Partido p : crearPartidos()) {
+                    if (p.getGrupo().equals(cbFase.getValue())) {
+                        if (p.getLocal().equals(cbEquipo1.getValue()) && p.getVisitante().equals(cbEquipo2.getValue())) {
+                            if (p.getMatchID().equals(j.getMatchID())) {
+                                if (!jugadoresPartido.contains(j)) {
+                                    jugadoresPartido.add(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void serializarJugadores() {
+        try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(App.pathFiles + "listaJugadoresSerializada.bin"))) {
+            obOut.writeObject(jugadoresPartido);
+            System.out.println("Lista serializada");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: No se pudo serializar.");
+        }
     }
 }

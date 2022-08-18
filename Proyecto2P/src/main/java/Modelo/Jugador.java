@@ -4,11 +4,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author leoan
  */
-public class Jugador {
+public class Jugador implements Serializable {
 
     private String roundID;
     private String matchID;
