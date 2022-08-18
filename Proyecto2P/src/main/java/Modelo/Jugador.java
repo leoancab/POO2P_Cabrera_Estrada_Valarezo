@@ -10,17 +10,15 @@ package Modelo;
  */
 public class Jugador {
 
-    private int roundID;
-    private int matchID;
+    private String roundID;
+    private String matchID;
     private String inicialesEquipo;
     private String entrenador;
     private String alineacion;
-    private int numero;
+    private String numero;
     private String nombre;
-    private String posicion;
-    private String evento;
 
-    public Jugador(int roundID, int matchID, String inicialesEquipo, String entrenador, String alineacion, int numero, String nombre, String posicion, String evento) {
+    public Jugador(String roundID, String matchID, String inicialesEquipo, String entrenador, String alineacion, String numero, String nombre) {
         this.roundID = roundID;
         this.matchID = matchID;
         this.inicialesEquipo = inicialesEquipo;
@@ -28,23 +26,21 @@ public class Jugador {
         this.alineacion = alineacion;
         this.numero = numero;
         this.nombre = nombre;
-        this.posicion = posicion;
-        this.evento = evento;
     }
 
-    public int getRoundID() {
+    public String getRoundID() {
         return roundID;
     }
 
-    public void setRoundID(int roundID) {
+    public void setRoundID(String roundID) {
         this.roundID = roundID;
     }
 
-    public int getMatchID() {
+    public String getMatchID() {
         return matchID;
     }
 
-    public void setMatchID(int matchID) {
+    public void setMatchID(String matchID) {
         this.matchID = matchID;
     }
 
@@ -72,11 +68,11 @@ public class Jugador {
         this.alineacion = alineacion;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -88,20 +84,9 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    public String getPosicion() {
-        return posicion;
+    @Override
+    public String toString() {
+        return "Jugador{" + "roundID=" + roundID + ", matchID=" + matchID + ", inicialesEquipo=" + inicialesEquipo + ", entrenador=" + entrenador + ", alineacion=" + alineacion + ", numero=" + numero + ", nombre=" + nombre + '}';
     }
-
-    public void setPosicion(String posicion) {
-        this.posicion = posicion;
-    }
-
-    public String getEvento() {
-        return evento;
-    }
-
-    public void setEvento(String evento) {
-        this.evento = evento;
-    }
-
+    
 }

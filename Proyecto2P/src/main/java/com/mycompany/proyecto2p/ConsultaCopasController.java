@@ -219,7 +219,7 @@ public class ConsultaCopasController implements Initializable {
             Image imBandera = new Image(input);
             ivBandera.setImage(imBandera);
             ivBandera.setFitWidth(20);
-            ivBandera.setFitHeight(20);
+            ivBandera.setPreserveRatio(true);
             hbBandera.getChildren().add(ivBandera);
         } catch (FileNotFoundException e) {
             System.out.println("Imagen no encontrada.");
