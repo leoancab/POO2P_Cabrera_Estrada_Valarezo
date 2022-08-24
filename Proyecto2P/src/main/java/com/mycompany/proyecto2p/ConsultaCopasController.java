@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -118,6 +119,7 @@ public class ConsultaCopasController implements Initializable {
                 Label lbPremio = new Label("Premios");
                 lbPremio.setFont(new Font(20));
                 lbPremio.setPrefHeight(20);
+                lbPremio.setPadding(new Insets(0, 0, 0, 10));
 
                 HBox hbPosicion = new HBox();
 
@@ -141,6 +143,8 @@ public class ConsultaCopasController implements Initializable {
                 vbPaises.setSpacing(10);
                 vbCopas.setSpacing(10);
                 vbPosiciones.getChildren().addAll(new Label("Ganador"), new Label("Segundo"), new Label("Tercero"), new Label("Cuarto"));
+                vbPosiciones.setAlignment(Pos.CENTER_LEFT);
+                vbPosiciones.setPadding(new Insets(0, 0, 0, 10));
 
                 obtenerBandera(lbGanador, vbPaises);
                 obtenerBandera(lbSegundo, vbPaises);
@@ -200,6 +204,7 @@ public class ConsultaCopasController implements Initializable {
             }
         }
         vbCopas.getChildren().add(hbCopas);
+        vbCopas.setAlignment(Pos.CENTER_LEFT);
     }
 
     public void añoIncorrecto() {
@@ -227,6 +232,8 @@ public class ConsultaCopasController implements Initializable {
             System.out.println("Error. Vuelva a intentar.");
         }
         hbBandera.getChildren().add(equipo);
+        hbBandera.setAlignment(Pos.CENTER_LEFT);
         vbPaises.getChildren().add(hbBandera);
+        vbPaises.setAlignment(Pos.CENTER_LEFT);
     }
 }
