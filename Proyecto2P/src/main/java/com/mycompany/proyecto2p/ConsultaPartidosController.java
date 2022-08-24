@@ -150,6 +150,7 @@ public class ConsultaPartidosController implements Initializable {
                     });
                 });
             } else if (!faseSelecc.equals("Group")) {
+                cbGrupo.setValue("");
                 ArrayList<String> equiposLocal = new ArrayList<>();
                 cbEquipo1.getItems().clear();
                 cbEquipo2.getItems().clear();
@@ -209,7 +210,7 @@ public class ConsultaPartidosController implements Initializable {
             } else {
                 Partido partidoSelecc = null;
                 for (int p = 0; p < crearPartidos().size(); p++) {
-                    if (crearPartidos().get(p).getLocal().equals(cbEquipo1.getValue()) && crearPartidos().get(p).getVisitante().equals(cbEquipo2.getValue())) {
+                    if (crearPartidos().get(p).getLocal().equals(cbEquipo1.getValue()) && crearPartidos().get(p).getVisitante().equals(cbEquipo2.getValue()) && crearPartidos().get(p).getGrupo().equals((cbFase.getValue() + " " + cbGrupo.getValue()).trim())) {
                         partidoSelecc = crearPartidos().get(p);
                     }
                 }
@@ -252,21 +253,26 @@ public class ConsultaPartidosController implements Initializable {
         HBox hbEquipo = new HBox();
         Label lbEquipo = new Label(equipo.toUpperCase());
         lbEquipo.setFont(new Font(18));
-        ImageView ivBandera = null;
-        try (FileInputStream input = new FileInputStream(App.pathImg + equipo + ".jpg")) {
-            Image imagen = new Image(input);
-            ivBandera = new ImageView(imagen);
-            ivBandera.setFitWidth(30);
-            ivBandera.setPreserveRatio(true);
-        } catch (FileNotFoundException e) {
+        try {
+            ImageView ivBandera = null;
+            try (FileInputStream input = new FileInputStream(App.pathImg + equipo + ".jpg")) {
+                Image imagen = new Image(input);
+                ivBandera = new ImageView(imagen);
+                ivBandera.setFitWidth(30);
+                ivBandera.setPreserveRatio(true);
+                hbEquipo.getChildren().add(ivBandera);
+            } catch (FileNotFoundException e) {
+                System.out.println("Imagen no encontrada.");
+            } catch (IOException e) {
+                System.out.println("Error. Vuelva a intentar.");
+            }
+        } catch (NullPointerException e3) {
             System.out.println("Imagen no encontrada.");
-        } catch (IOException e) {
-            System.out.println("Error. Vuelva a intentar.");
         }
-        hbEquipo.getChildren().addAll(ivBandera, lbEquipo);
         hbEquipo.setSpacing(10);
         hbEquipo.setPrefWidth(125);
         hbEquipo.setAlignment(Pos.CENTER);
+        hbEquipo.getChildren().add(lbEquipo);
         return hbEquipo;
     }
 
