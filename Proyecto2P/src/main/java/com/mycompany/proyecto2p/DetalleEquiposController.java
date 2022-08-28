@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -310,11 +312,33 @@ public class DetalleEquiposController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        equipo1.setText(ConsultaPartidosController.partidoSelecc.getLocal());
-//        equipo2.setText(ConsultaPartidosController.partidoSelecc.getVisitante());
-        actualizarLabels();
+        ArrayList<Jugador> listequipo1 = new ArrayList();
+        ArrayList<Jugador> listequipo2 = new ArrayList();
+        equipo1.setText(ConsultaPartidosController.partidoSelecc.getLocal());
+        equipo2.setText(ConsultaPartidosController.partidoSelecc.getVisitante());
 
-        modificarVBox((VBox) hbequipo1.getChildren().get(0), ConsultaPartidosController.jugadoresPartido.get(0));
+
+        ObservableList<Node> childrens1 = hbequipo1.getChildren();
+        ObservableList<Node> childrens2 = hbequipo2.getChildren();
+
+        for (int i = 0; i < childrens1.size(); i++) {
+            if (ConsultaPartidosController.partidoSelecc.getInicialLocal().equals(ConsultaPartidosController.jugadoresPartido.get(i).getInicialesEquipo())) {
+                listequipo1.add(ConsultaPartidosController.jugadoresPartido.get(i));
+
+            }else{
+                listequipo2.add(ConsultaPartidosController.jugadoresPartido.get(i));
+                
+            }
+            
+        }
+        
+        for (int i = 0; i < listequipo1.size(); i++) {
+            modificarVBox((VBox)childrens1.get(i), listequipo1.get(i));
+        }
+        
+        for (int i = 0; i < listequipo2.size(); i++) {
+            modificarVBox((VBox)childrens2.get(i), listequipo2.get(i));
+        }
 
     }
 
@@ -329,11 +353,12 @@ public class DetalleEquiposController implements Initializable {
         Label lb = new Label();
         lb.setText(jb.getNombre());
 
-        try ( FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
             ImageView img = new ImageView();
-
             Image imagen = new Image(input);
             img.setImage(imagen);
+            img.setFitWidth(100);
+            img.setPreserveRatio(true);
 
             v.getChildren().add(img);
         } catch (FileNotFoundException e) {
@@ -344,10 +369,36 @@ public class DetalleEquiposController implements Initializable {
         v.getChildren().add(lb);
     }
 
-    public void actualizarLabels() {
-        equipo1.setText("Leonel propuesta");
-        equipo2.setText("Mario acepta");
-
+    
+    
+    public void mostrarJugador(VBox vb1){
+        vb1.setOnMouseClicked(e->{
+            VBox ventanita = new VBox();
+            
+        try (FileInputStream input = new FileInputStream() {
+            ImageView img = new ImageView();
+            Image imagen = new Image(input);
+            img.setImage(imagen);
+            img.setFitWidth(100);
+            img.setPreserveRatio(true);
+            
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e2) {
+            System.out.println(e2.getMessage());
+        }
+            
+          
+            Label nombreJug = new Label();
+            Label detallesJug = new Label();
+            Label contador = new Label();
+            
+            ventanita.getChildren().addAll(nombreJug,img,detallesJug,contador);
+            
+            
+        }
+        );
+        
     }
 
 }
