@@ -1,6 +1,507 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyecto2p.DetalleEquiposController" />
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyecto2p.DetalleEquiposController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="64.0" prefWidth="630.0">
+         <children>
+            <Label text="Detalles de equipo">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="equipo1" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <HBox fx:id="hbequipo1" prefHeight="170.0" prefWidth="614.0" spacing="10.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I1" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J1" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I2" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J2" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I3" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J3" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I4" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J4" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I5" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J5" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I6" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J6" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I7" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J7" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I8" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J8" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I9" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J9" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I10" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J10" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I11" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J11" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I12" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J12" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I13" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J13" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I14" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J14" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I15" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J15" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I16" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J16" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I17" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J17" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I18" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J18" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I19" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J19" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I20" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J20" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I21" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J21" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I22" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J22" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I23" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J23" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                     </children></HBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="equipo2" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <HBox fx:id="hbequipo2" prefHeight="170.0" prefWidth="617.0" spacing="10.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I24" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J24" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I25" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J25" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I26" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J26" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I27" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J27" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I28" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J28" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I29" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J29" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I30" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J30" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I31" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J31" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I32" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J32" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I33" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J33" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I34" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J34" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I35" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J35" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I36" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J36" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I37" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J37" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I38" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J38" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I39" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J39" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I40" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J40" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I41" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J41" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I42" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J42" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I43" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J43" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I44" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J44" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I45" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J45" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <ImageView fx:id="I46" fitHeight="124.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Captura.JPG" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="J46" prefHeight="38.0" prefWidth="47.0" text="Nombre Jugador" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                     </children></HBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </children>
+</VBox>

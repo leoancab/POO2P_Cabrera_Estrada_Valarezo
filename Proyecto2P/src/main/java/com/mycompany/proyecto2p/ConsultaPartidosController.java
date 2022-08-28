@@ -13,9 +13,13 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -26,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -41,21 +46,30 @@ public class ConsultaPartidosController implements Initializable {
     @FXML
     private ComboBox<String> cbGrupo;
     @FXML
-    private ComboBox<String> cbEquipo1;
+    public ComboBox<String> cbEquipo1;
     @FXML
-    private ComboBox<String> cbEquipo2;
+    public ComboBox<String> cbEquipo2;
     @FXML
     private Button btnConsultar;
     @FXML
     private VBox vbResultados;
-    public ArrayList<Jugador> jugadoresPartido = new ArrayList<>();
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
+    public static Partido partidoSelecc;
+
+    public static ArrayList<Jugador> jugadoresPartido = new ArrayList<>();
+    // Lo hice estatico para poder llamarlo en Detalle Equipo
+
+    public String getCbEquipo1() {
+
+        String nombre = cbEquipo1.getValue();
+
+        return nombre;
+    }
+
+    public String getCbEquipo2() {
+        return cbEquipo2.getValue();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarEquipos();
@@ -208,7 +222,7 @@ public class ConsultaPartidosController implements Initializable {
             if (cbFase.getValue() == null || cbEquipo1.getValue() == null || cbEquipo2.getValue() == null) {
                 camposVacios();
             } else {
-                Partido partidoSelecc = null;
+                partidoSelecc = null;
                 for (int p = 0; p < crearPartidos().size(); p++) {
                     if (crearPartidos().get(p).getLocal().equals(cbEquipo1.getValue()) && crearPartidos().get(p).getVisitante().equals(cbEquipo2.getValue()) && crearPartidos().get(p).getGrupo().equals((cbFase.getValue() + " " + cbGrupo.getValue()).trim())) {
                         partidoSelecc = crearPartidos().get(p);
@@ -218,6 +232,7 @@ public class ConsultaPartidosController implements Initializable {
                     VBox vbBotones = new VBox();
                     Button btnExportarResultados = new Button("EXPORTAR RESULTADOS DE GRUPO");
                     Button btnDetalleEquipos = new Button("VER DETALLE DE EQUIPOS");
+                    //IMPORTANTE
                     btnExportarResultados.setStyle("-fx-background-color:blue;");
                     btnDetalleEquipos.setStyle("-fx-background-color:blue;");
                     btnExportarResultados.setTextFill(Color.WHITE);
@@ -242,6 +257,8 @@ public class ConsultaPartidosController implements Initializable {
                     hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), puntuacionPartido(partidoSelecc), equipoPartido(partidoSelecc.getVisitante()));
                     vbResultados.getChildren().addAll(lbResultado, hbMostranDatos, vbBotones);
                     confirmacion(btnExportarResultados);
+                    detalleEquipos(btnDetalleEquipos);
+
                 } else {
                     partidoNoEncontrado();
                 }
@@ -343,5 +360,28 @@ public class ConsultaPartidosController implements Initializable {
             e.printStackTrace();
             System.out.println("Error: No se pudo serializar.");
         }
+    }
+
+    @FXML
+    public void detalleEquipos(Button btn) {
+        btn.setOnAction(e -> {
+            FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/DetalleEquipos.fxml"));
+            Parent root2;
+            try {
+                root2 = fxmLoader.load();
+                Scene scene = new Scene(root2);
+                Stage stage = new Stage();
+                stage.setTitle("DETALLE DE EQUIPOS");
+                stage.setScene(scene);
+                stage.show();
+                Stage stage2 = (Stage) btn.getScene().getWindow();
+                stage2.close();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+        });
+
     }
 }
