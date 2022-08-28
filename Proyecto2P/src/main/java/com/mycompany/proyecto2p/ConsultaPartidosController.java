@@ -74,6 +74,7 @@ public class ConsultaPartidosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         llenarEquipos();
         buscarPartido();
+        
     }
 
     public void llenarFases() {
@@ -258,7 +259,7 @@ public class ConsultaPartidosController implements Initializable {
                     vbResultados.getChildren().addAll(lbResultado, hbMostranDatos, vbBotones);
                     confirmacion(btnExportarResultados);
                     detalleEquipos(btnDetalleEquipos);
-
+                    obtenerJugadoresPartido();
                 } else {
                     partidoNoEncontrado();
                 }

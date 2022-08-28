@@ -8,13 +8,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class DetalleEquiposController {
+public class DetalleEquiposController implements Initializable {
 
     @FXML
     private ImageView I1;
@@ -307,10 +308,14 @@ public class DetalleEquiposController {
     @FXML
     private VBox root;
 
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        equipo1.setText(ConsultaPartidosController.partidoSelecc.getLocal());
 //        equipo2.setText(ConsultaPartidosController.partidoSelecc.getVisitante());
-            actualizarLabels();
+        actualizarLabels();
+
+        modificarVBox((VBox) hbequipo1.getChildren().get(0), ConsultaPartidosController.jugadoresPartido.get(0));
+
     }
 
     public void mostrarAleatorio(HBox hb, ArrayList<Jugador> listJB) {
@@ -319,26 +324,24 @@ public class DetalleEquiposController {
 
     }
 
-    public VBox modificarVBox(ImageView img, Label lb, Jugador jb) {
-        VBox vb = new VBox();
+    public void modificarVBox(VBox v, Jugador jb) {
+        v.getChildren().clear();
+        Label lb = new Label();
+        lb.setText(jb.getNombre());
 
-        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+        try ( FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+            ImageView img = new ImageView();
+
             Image imagen = new Image(input);
             img.setImage(imagen);
-            lb.setText(jb.getNombre());
 
-            vb.getChildren().addAll(img, lb);
-
+            v.getChildren().add(img);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-
         } catch (IOException e2) {
             System.out.println(e2.getMessage());
-
         }
-
-        return vb;
-
+        v.getChildren().add(lb);
     }
 
     public void actualizarLabels() {
@@ -346,4 +349,5 @@ public class DetalleEquiposController {
         equipo2.setText("Mario acepta");
 
     }
+
 }
