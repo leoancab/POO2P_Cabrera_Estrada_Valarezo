@@ -8,14 +8,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class DetalleEquiposController implements Initializable {
 
@@ -317,7 +324,6 @@ public class DetalleEquiposController implements Initializable {
         equipo1.setText(ConsultaPartidosController.partidoSelecc.getLocal());
         equipo2.setText(ConsultaPartidosController.partidoSelecc.getVisitante());
 
-
         ObservableList<Node> childrens1 = hbequipo1.getChildren();
         ObservableList<Node> childrens2 = hbequipo2.getChildren();
 
@@ -325,19 +331,38 @@ public class DetalleEquiposController implements Initializable {
             if (ConsultaPartidosController.partidoSelecc.getInicialLocal().equals(ConsultaPartidosController.jugadoresPartido.get(i).getInicialesEquipo())) {
                 listequipo1.add(ConsultaPartidosController.jugadoresPartido.get(i));
 
-            }else{
+            } else {
                 listequipo2.add(ConsultaPartidosController.jugadoresPartido.get(i));
-                
+
             }
-            
+
         }
-        
+
         for (int i = 0; i < listequipo1.size(); i++) {
-            modificarVBox((VBox)childrens1.get(i), listequipo1.get(i));
+            final int c = i;
+            modificarVBox((VBox) childrens1.get(i), listequipo1.get(i));
+            childrens1.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent t) {
+                    int indice = childrens1.indexOf(childrens1.get(c));
+                    System.out.println(listequipo1.get(indice));
+                    mostrarJugador(listequipo1.get(indice));
+                }
+            });
         }
-        
+
         for (int i = 0; i < listequipo2.size(); i++) {
-            modificarVBox((VBox)childrens2.get(i), listequipo2.get(i));
+            final int c = i;
+            modificarVBox((VBox) childrens2.get(i), listequipo2.get(i));
+            childrens2.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent t) {
+                    int indice = childrens2.indexOf(childrens2.get(c));
+                    System.out.println(listequipo2.get(indice));
+                    mostrarJugador(listequipo2.get(indice));
+                }
+            });
+
         }
 
     }
@@ -369,36 +394,61 @@ public class DetalleEquiposController implements Initializable {
         v.getChildren().add(lb);
     }
 
-    
-    
-    public void mostrarJugador(VBox vb1){
-        vb1.setOnMouseClicked(e->{
-            VBox ventanita = new VBox();
-            
-        try (FileInputStream input = new FileInputStream() {
+
+    public void mostrarJugador(Jugador jb1) {
+        VBox vb1 = new VBox();
+        vb1.setAlignment(Pos.CENTER);
+        vb1.setSpacing(10);
+
+        Label lb1 = new Label();
+        lb1.setFont(new Font(22));
+        lb1.setText(jb1.getNombre());
+        vb1.getChildren().add(lb1);
+        Label lbcontador = new Label();
+        
+        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb1.getNombre() + ".jpg")) {
             ImageView img = new ImageView();
             Image imagen = new Image(input);
             img.setImage(imagen);
             img.setFitWidth(100);
             img.setPreserveRatio(true);
-            
+
+            vb1.getChildren().add(img);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e2) {
             System.out.println(e2.getMessage());
         }
-            
-          
-            Label nombreJug = new Label();
-            Label detallesJug = new Label();
-            Label contador = new Label();
-            
-            ventanita.getChildren().addAll(nombreJug,img,detallesJug,contador);
-            
-            
-        }
-        );
         
+        VBox vbpequenio = new VBox();
+        vbpequenio.setAlignment(Pos.CENTER);
+        vbpequenio.setStyle("-fx-background-color:chartreuse;");
+        Label dato1 = new Label();
+        Label dato2 = new Label();
+        Label dato3 = new Label();
+        
+        dato1.setText(jb1.getInicialesEquipo());
+        dato2.setText("CAMISETA NRO "+jb1.getNumero());
+        String tecnico = jb1.getEntrenador().split(" ")[0]+" "+jb1.getEntrenador().split(" ")[1];
+        tecnico = tecnico.toUpperCase();
+        dato3.setText("DIR. TEC. "+tecnico);
+        vbpequenio.getChildren().addAll(dato1,dato2,dato3);
+
+        vb1.getChildren().addAll(vbpequenio, lbcontador);
+        
+        
+        
+         
+        Scene scene = new Scene(vb1, 200, 300);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        //No modificar tamano ventana
+        stage.setScene(scene);
+        stage.show();
+
     }
+    
+    
+    
 
 }
