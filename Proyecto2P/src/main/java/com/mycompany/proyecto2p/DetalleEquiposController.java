@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -340,7 +341,7 @@ public class DetalleEquiposController implements Initializable {
 
         for (int i = 0; i < listequipo1.size(); i++) {
             final int c = i;
-            modificarVBox((VBox) childrens1.get(i), listequipo1.get(i));
+            modificarVBox((VBox) childrens1.get(i), listequipo1.get(i), generadorAleatorio());
             childrens1.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent t) {
@@ -353,7 +354,7 @@ public class DetalleEquiposController implements Initializable {
 
         for (int i = 0; i < listequipo2.size(); i++) {
             final int c = i;
-            modificarVBox((VBox) childrens2.get(i), listequipo2.get(i));
+            modificarVBox((VBox) childrens2.get(i), listequipo2.get(i), generadorAleatorio());
             childrens2.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent t) {
@@ -367,33 +368,64 @@ public class DetalleEquiposController implements Initializable {
 
     }
 
-    public void mostrarAleatorio(HBox hb, ArrayList<Jugador> listJB) {
-        int numAle = (int) Math.random() * 24; // No incluye el ultimo numero por eso 24
-        hb.getChildren().get(numAle);
+    public int generadorAleatorio() {
+        int numAle = (int) Math.random() * 16 + 5; // No incluye el ultimo numero por eso 24
+
+        return numAle;
 
     }
 
-    public void modificarVBox(VBox v, Jugador jb) {
+    public void modificarVBox(VBox v, Jugador jb, int num) {
         v.getChildren().clear();
         Label lb = new Label();
         lb.setText(jb.getNombre());
 
-        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
-            ImageView img = new ImageView();
-            Image imagen = new Image(input);
-            img.setImage(imagen);
-            img.setFitWidth(100);
-            img.setPreserveRatio(true);
+        Thread t1 = new Thread(new Runnable() {
 
-            v.getChildren().add(img);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e2) {
-            System.out.println(e2.getMessage());
-        }
-        v.getChildren().add(lb);
+            @Override
+            public void run() {
+                for (int i = 5; i <= 15; i++) {
+                    final int c = i;
+                    Platform.runLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (c == num) {
+                                try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+                                    ImageView img = new ImageView();
+                                    Image imagen = new Image(input);
+                                    img.setImage(imagen);
+                                    img.setFitWidth(100);
+                                    img.setPreserveRatio(true);
+
+                                    v.getChildren().add(img);
+                                } catch (FileNotFoundException e) {
+                                    System.out.println(e.getMessage());
+                                } catch (IOException e2) {
+                                    System.out.println(e2.getMessage());
+                                }
+                                v.getChildren().add(lb);
+
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    ex.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                    });
+
+                }
+
+            }
+
+        });
+        t1.start();
+
     }
-
 
     public void mostrarJugador(Jugador jb1) {
         VBox vb1 = new VBox();
@@ -405,7 +437,7 @@ public class DetalleEquiposController implements Initializable {
         lb1.setText(jb1.getNombre());
         vb1.getChildren().add(lb1);
         Label lbcontador = new Label();
-        
+
         try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb1.getNombre() + ".jpg")) {
             ImageView img = new ImageView();
             Image imagen = new Image(input);
@@ -419,26 +451,23 @@ public class DetalleEquiposController implements Initializable {
         } catch (IOException e2) {
             System.out.println(e2.getMessage());
         }
-        
+
         VBox vbpequenio = new VBox();
         vbpequenio.setAlignment(Pos.CENTER);
         vbpequenio.setStyle("-fx-background-color:chartreuse;");
         Label dato1 = new Label();
         Label dato2 = new Label();
         Label dato3 = new Label();
-        
+
         dato1.setText(jb1.getInicialesEquipo());
-        dato2.setText("CAMISETA NRO "+jb1.getNumero());
-        String tecnico = jb1.getEntrenador().split(" ")[0]+" "+jb1.getEntrenador().split(" ")[1];
+        dato2.setText("CAMISETA NRO " + jb1.getNumero());
+        String tecnico = jb1.getEntrenador().split(" ")[0] + " " + jb1.getEntrenador().split(" ")[1];
         tecnico = tecnico.toUpperCase();
-        dato3.setText("DIR. TEC. "+tecnico);
-        vbpequenio.getChildren().addAll(dato1,dato2,dato3);
+        dato3.setText("DIR. TEC. " + tecnico);
+        vbpequenio.getChildren().addAll(dato1, dato2, dato3);
 
         vb1.getChildren().addAll(vbpequenio, lbcontador);
-        
-        
-        
-         
+
         Scene scene = new Scene(vb1, 200, 300);
         Stage stage = new Stage();
         stage.setResizable(false);
@@ -446,9 +475,43 @@ public class DetalleEquiposController implements Initializable {
         stage.setScene(scene);
         stage.show();
 
+        Thread t1 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                for (int i = 10; i >= 0; i--) {
+                    final int c = i;
+                    Platform.runLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            lbcontador.setText("Mostrando por " + c + " segundos");
+                            System.out.println(lbcontador.getText());
+
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+                Platform.runLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        stage.close();
+
+                    }
+                });
+
+            }
+        });
+
+        t1.start();
+
     }
-    
-    
-    
 
 }
