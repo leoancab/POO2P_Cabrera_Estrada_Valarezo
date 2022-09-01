@@ -374,27 +374,52 @@ public class DetalleEquiposController implements Initializable {
         return numAle;
 
     }
-    
 
     public void modificarVBox(VBox v, Jugador jb, int num) {
         v.getChildren().clear();
         Label lb = new Label();
         lb.setText(jb.getNombre());
+        Thread t1 = new Thread(new Runnable() {
 
-        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
-            ImageView img = new ImageView();
-            Image imagen = new Image(input);
-            img.setImage(imagen);
-            img.setFitWidth(100);
-            img.setPreserveRatio(true);
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000 * num);
+                    System.out.println("Prueba");
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
 
-            v.getChildren().add(img);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e2) {
-            System.out.println(e2.getMessage());
-        }
-        v.getChildren().add(lb);
+                try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+                    ImageView img = new ImageView();
+                    Image imagen = new Image(input);
+                    
+                    Platform.runLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            img.setImage(imagen);
+                            img.setFitWidth(100);
+                            img.setPreserveRatio(true);
+                            v.getChildren().add(img);
+                            v.getChildren().add(lb);
+                            
+                        }
+                        
+                    });
+
+                    
+                } catch (FileNotFoundException e) {
+                    System.out.println(e.getMessage());
+                } catch (IOException e2) {
+                    System.out.println(e2.getMessage());
+                }
+                
+            }
+
+        });
+        
+        t1.start();
 
     }
 
