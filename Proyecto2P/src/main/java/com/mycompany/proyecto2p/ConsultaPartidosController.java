@@ -57,6 +57,7 @@ public class ConsultaPartidosController implements Initializable {
     public static Partido partidoSelecc;
 
     public static ArrayList<Jugador> jugadoresPartido = new ArrayList<>();
+    public static ArrayList<Partido> partidos = new ArrayList<>();
     // Lo hice estatico para poder llamarlo en Detalle Equipo
 
     public String getCbEquipo1() {
@@ -72,9 +73,9 @@ public class ConsultaPartidosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        crearPartidos(partidos);
         llenarEquipos();
         buscarPartido();
-        
     }
 
     public void llenarFases() {
@@ -97,11 +98,11 @@ public class ConsultaPartidosController implements Initializable {
         return jugadores;
     }
 
-    public ArrayList<Partido> crearPartidos() {
-        ArrayList<Partido> partidos = new ArrayList<>();
+    public ArrayList<Partido> crearPartidos(ArrayList<Partido> p) {
+
         ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
         listaPartidos.forEach(linea -> {
-            partidos.add(new Partido(linea.split(",")[0].trim(),
+            p.add(new Partido(linea.split(",")[0].trim(),
                     linea.split(",")[1].trim(), linea.split(",")[2].trim(),
                     linea.split(",")[3].trim(), linea.split(",")[4].trim(),
                     linea.split(",")[5].trim(), linea.split(",")[6].trim(),
@@ -113,7 +114,7 @@ public class ConsultaPartidosController implements Initializable {
                     linea.split(",")[17].trim(), linea.split(",")[18].trim(),
                     linea.split(",")[19].trim()));
         });
-        return partidos;
+        return p;
     }
 
     public void llenarEquipos() {
@@ -132,7 +133,7 @@ public class ConsultaPartidosController implements Initializable {
                     cbEquipo2.getItems().clear();
                     vbResultados.getChildren().clear();
                     String grupoSelecc = cbGrupo.getValue();
-                    for (Partido p : crearPartidos()) {
+                    for (Partido p : partidos) {
                         if (p.getGrupo().split(" ")[0].equals("Group")) {
                             if (p.getGrupo().split(" ")[1].equals(grupoSelecc)) {
                                 if (!equiposLocal.contains(p.getLocal())) {
@@ -147,7 +148,7 @@ public class ConsultaPartidosController implements Initializable {
                         cbEquipo2.getItems().clear();
                         vbResultados.getChildren().clear();
                         String equipoSelecc = cbEquipo1.getValue();
-                        for (Partido p : crearPartidos()) {
+                        for (Partido p : partidos) {
                             if (p.getGrupo().split(" ")[0].equals("Group")) {
                                 if (p.getGrupo().split(" ")[1].equals(grupoSelecc)) {
                                     if (!equiposVisita.contains(p.getVisitante())) {
@@ -170,7 +171,7 @@ public class ConsultaPartidosController implements Initializable {
                 cbEquipo1.getItems().clear();
                 cbEquipo2.getItems().clear();
                 vbResultados.getChildren().clear();
-                for (Partido p : crearPartidos()) {
+                for (Partido p : partidos) {
                     if (p.getGrupo().equals(faseSelecc)) {
                         if (!equiposLocal.contains(p.getLocal())) {
                             equiposLocal.add(p.getLocal());
@@ -183,7 +184,7 @@ public class ConsultaPartidosController implements Initializable {
                     cbEquipo2.getItems().clear();
                     vbResultados.getChildren().clear();
                     String equipoSelecc = cbEquipo1.getValue();
-                    for (Partido p : crearPartidos()) {
+                    for (Partido p : partidos) {
                         if (p.getGrupo().equals(faseSelecc)) {
                             if (!equiposVisita.contains(p.getVisitante())) {
                                 if (!p.getVisitante().equals(equipoSelecc)) {
@@ -224,9 +225,9 @@ public class ConsultaPartidosController implements Initializable {
                 camposVacios();
             } else {
                 partidoSelecc = null;
-                for (int p = 0; p < crearPartidos().size(); p++) {
-                    if (crearPartidos().get(p).getLocal().equals(cbEquipo1.getValue()) && crearPartidos().get(p).getVisitante().equals(cbEquipo2.getValue()) && crearPartidos().get(p).getGrupo().equals((cbFase.getValue() + " " + cbGrupo.getValue()).trim())) {
-                        partidoSelecc = crearPartidos().get(p);
+                for (int p = 0; p < partidos.size(); p++) {
+                    if (partidos.get(p).getLocal().equals(cbEquipo1.getValue()) && partidos.get(p).getVisitante().equals(cbEquipo2.getValue()) && partidos.get(p).getGrupo().equals((cbFase.getValue() + " " + cbGrupo.getValue()).trim())) {
+                        partidoSelecc = partidos.get(p);
                     }
                 }
                 if (partidoSelecc != null) {
@@ -255,7 +256,36 @@ public class ConsultaPartidosController implements Initializable {
                             new Label(partidoSelecc.getGrupo()),
                             new Label(partidoSelecc.getEstadio()),
                             new Label(partidoSelecc.getCiudad()));
-                    hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), puntuacionPartido(partidoSelecc), equipoPartido(partidoSelecc.getVisitante()));
+
+                    if (partidoSelecc.compareTo(partidoSelecc) == -1) {
+                        VBox vbR = new VBox();
+                        vbR.setAlignment(Pos.CENTER);
+                        Label lbFinal = new Label("FINAL DEL PARTIDO");
+                        Label lbResultado2 = new Label(partidoSelecc.getGolesLocalTotal() + "-" + partidoSelecc.getGolesVisitaTotal());
+                        lbResultado2.setTextFill(Color.BLUE);
+                        vbR.getChildren().addAll(lbFinal, lbResultado2);
+                        vbR.setPrefWidth(125);
+                        hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), vbR, equipoPartido(partidoSelecc.getVisitante()));
+                    } else if (partidoSelecc.compareTo(partidoSelecc) == 1) {
+                        VBox vbR = new VBox();
+                        vbR.setAlignment(Pos.CENTER);
+                        Label lbFinal = new Label("FINAL DEL PARTIDO");
+                        Label lbResultado2 = new Label(partidoSelecc.getGolesVisitaTotal() + "-" + partidoSelecc.getGolesLocalTotal());
+                        lbResultado2.setTextFill(Color.BLUE);
+                        vbR.getChildren().addAll(lbFinal, lbResultado2);
+                        vbR.setPrefWidth(125);
+                        hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getVisitante()), vbR, equipoPartido(partidoSelecc.getLocal()));
+                    } else if (partidoSelecc.compareTo(partidoSelecc) == 0) {
+                        VBox vbR = new VBox();
+                        vbR.setAlignment(Pos.CENTER);
+                        Label lbFinal = new Label("FINAL DEL PARTIDO");
+                        Label lbResultado2 = new Label(partidoSelecc.getGolesLocalTotal() + "-" + partidoSelecc.getGolesVisitaTotal());
+                        lbResultado2.setTextFill(Color.BLUE);
+                        vbR.getChildren().addAll(lbFinal, lbResultado2);
+                        vbR.setPrefWidth(125);
+                        hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), vbR, equipoPartido(partidoSelecc.getVisitante()));
+                    }
+                    //hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), puntuacionPartido(partidoSelecc), equipoPartido(partidoSelecc.getVisitante()));
                     vbResultados.getChildren().addAll(lbResultado, hbMostranDatos, vbBotones);
                     confirmacion(btnExportarResultados);
                     detalleEquipos(btnDetalleEquipos);
@@ -273,7 +303,7 @@ public class ConsultaPartidosController implements Initializable {
         lbEquipo.setFont(new Font(18));
         try {
             ImageView ivBandera = null;
-            try (FileInputStream input = new FileInputStream(App.pathImg + equipo + ".jpg")) {
+            try ( FileInputStream input = new FileInputStream(App.pathImg + equipo + ".jpg")) {
                 Image imagen = new Image(input);
                 ivBandera = new ImageView(imagen);
                 ivBandera.setFitWidth(30);
@@ -294,17 +324,16 @@ public class ConsultaPartidosController implements Initializable {
         return hbEquipo;
     }
 
-    public VBox puntuacionPartido(Partido p) {
-        VBox vbR = new VBox();
-        vbR.setAlignment(Pos.CENTER);
-        Label lbFinal = new Label("FINAL DEL PARTIDO");
-        Label lbResultado = new Label(p.getGolesLocalTotal() + "-" + p.getGolesVisitaTotal());
-        lbResultado.setTextFill(Color.BLUE);
-        vbR.getChildren().addAll(lbFinal, lbResultado);
-        vbR.setPrefWidth(125);
-        return vbR;
-    }
-
+//    public VBox puntuacionPartido(Partido p) {
+//        VBox vbR = new VBox();
+//        vbR.setAlignment(Pos.CENTER);
+//        Label lbFinal = new Label("FINAL DEL PARTIDO");
+//        Label lbResultado = new Label(p.getGolesLocalTotal() + "-" + p.getGolesVisitaTotal());
+//        lbResultado.setTextFill(Color.BLUE);
+//        vbR.getChildren().addAll(lbFinal, lbResultado);
+//        vbR.setPrefWidth(125);
+//        return vbR;
+//    }
     public void confirmacion(Button b) {
         b.setOnAction(c -> {
             Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -324,7 +353,7 @@ public class ConsultaPartidosController implements Initializable {
         if (cbFase.getValue().equals("Group")) {
             String grupoSelecc = cbGrupo.getValue();
             for (Jugador j : crearJugadores()) {
-                for (Partido p : crearPartidos()) {
+                for (Partido p : partidos) {
                     if (p.getGrupo().equals(cbFase + " " + grupoSelecc)) {
                         if (p.getLocal().equals(cbEquipo1.getValue()) && p.getVisitante().equals(cbEquipo2.getValue())) {
                             if (p.getMatchID().equals(j.getMatchID())) {
@@ -338,7 +367,7 @@ public class ConsultaPartidosController implements Initializable {
             }
         } else if (!cbFase.getValue().equals("Group")) {
             for (Jugador j : crearJugadores()) {
-                for (Partido p : crearPartidos()) {
+                for (Partido p : partidos) {
                     if (p.getGrupo().equals(cbFase.getValue())) {
                         if (p.getLocal().equals(cbEquipo1.getValue()) && p.getVisitante().equals(cbEquipo2.getValue())) {
                             if (p.getMatchID().equals(j.getMatchID())) {
@@ -354,7 +383,7 @@ public class ConsultaPartidosController implements Initializable {
     }
 
     public void serializarJugadores() {
-        try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(App.pathFiles + "listaJugadoresSerializada.bin"))) {
+        try ( ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(App.pathFiles + "listaJugadoresSerializada.bin"))) {
             obOut.writeObject(jugadoresPartido);
             System.out.println("Lista serializada");
         } catch (IOException e) {

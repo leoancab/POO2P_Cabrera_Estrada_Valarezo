@@ -8,7 +8,7 @@ package Modelo;
  *
  * @author leoan
  */
-public class Partido {
+public class Partido implements Comparable<Partido> {
 
     private String year;
     private String dateTime;
@@ -213,16 +213,16 @@ public class Partido {
     public void setInicialVisita(String inicialVisita) {
         this.inicialVisita = inicialVisita;
     }
-    /*
+
     @Override
     public int compareTo(Partido o) {
-        if(String.valueOf(this.getLocal().charAt(0)).equals(String.valueOf(o.getVisitante().charAt(0)))){
+        if (Character.valueOf(this.getLocal().charAt(0)) > Character.valueOf(o.getVisitante().charAt(0))) {
             return 1;
-        }else if(!String.valueOf(this.getLocal().charAt(0)).equals(String.valueOf(o.getVisitante().charAt(0)))){
-            return -1;
-        }else{
+        } else if (Character.valueOf(this.getLocal().charAt(0)) == Character.valueOf(o.getVisitante().charAt(0))) {
             return 0;
+        } else {
+            return -1;
         }
     }
-     */
+
 }
