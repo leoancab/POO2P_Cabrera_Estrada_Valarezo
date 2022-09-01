@@ -369,61 +369,32 @@ public class DetalleEquiposController implements Initializable {
     }
 
     public int generadorAleatorio() {
-        int numAle = (int) Math.random() * 16 + 5; // No incluye el ultimo numero por eso 24
-
+        int numAle = (int) Math.floor(Math.random() * (15 - 5 + 1) + 5); //Numero aleatorio entre 5 y 15
+        System.out.println(numAle);
         return numAle;
 
     }
+    
 
     public void modificarVBox(VBox v, Jugador jb, int num) {
         v.getChildren().clear();
         Label lb = new Label();
         lb.setText(jb.getNombre());
 
-        Thread t1 = new Thread(new Runnable() {
+        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+            ImageView img = new ImageView();
+            Image imagen = new Image(input);
+            img.setImage(imagen);
+            img.setFitWidth(100);
+            img.setPreserveRatio(true);
 
-            @Override
-            public void run() {
-                for (int i = 5; i <= 15; i++) {
-                    final int c = i;
-                    Platform.runLater(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (c == num) {
-                                try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
-                                    ImageView img = new ImageView();
-                                    Image imagen = new Image(input);
-                                    img.setImage(imagen);
-                                    img.setFitWidth(100);
-                                    img.setPreserveRatio(true);
-
-                                    v.getChildren().add(img);
-                                } catch (FileNotFoundException e) {
-                                    System.out.println(e.getMessage());
-                                } catch (IOException e2) {
-                                    System.out.println(e2.getMessage());
-                                }
-                                v.getChildren().add(lb);
-
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
-                                }
-
-                            }
-
-                        }
-
-                    });
-
-                }
-
-            }
-
-        });
-        t1.start();
+            v.getChildren().add(img);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e2) {
+            System.out.println(e2.getMessage());
+        }
+        v.getChildren().add(lb);
 
     }
 
