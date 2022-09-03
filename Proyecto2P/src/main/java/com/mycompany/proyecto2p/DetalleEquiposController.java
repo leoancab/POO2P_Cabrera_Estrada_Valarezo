@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -331,48 +330,33 @@ public class DetalleEquiposController implements Initializable {
         for (int i = 0; i < childrens1.size(); i++) {
             if (ConsultaPartidosController.partidoSelecc.getInicialLocal().equals(ConsultaPartidosController.jugadoresPartido.get(i).getInicialesEquipo())) {
                 listequipo1.add(ConsultaPartidosController.jugadoresPartido.get(i));
-
             } else {
                 listequipo2.add(ConsultaPartidosController.jugadoresPartido.get(i));
-
             }
-
         }
 
         for (int i = 0; i < listequipo1.size(); i++) {
             final int c = i;
             modificarVBox((VBox) childrens1.get(i), listequipo1.get(i), generadorAleatorio());
-            childrens1.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent t) {
-                    int indice = childrens1.indexOf(childrens1.get(c));
-                    System.out.println(listequipo1.get(indice));
-                    mostrarJugador(listequipo1.get(indice));
-                }
+            childrens1.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent t) -> {
+                int indice = childrens1.indexOf(childrens1.get(c));
+                mostrarJugador(listequipo1.get(indice));
             });
         }
 
         for (int i = 0; i < listequipo2.size(); i++) {
             final int c = i;
             modificarVBox((VBox) childrens2.get(i), listequipo2.get(i), generadorAleatorio());
-            childrens2.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent t) {
-                    int indice = childrens2.indexOf(childrens2.get(c));
-                    System.out.println(listequipo2.get(indice));
-                    mostrarJugador(listequipo2.get(indice));
-                }
+            childrens2.get(i).addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent t) -> {
+                int indice = childrens2.indexOf(childrens2.get(c));
+                mostrarJugador(listequipo2.get(indice));
             });
-
         }
-
     }
 
     public int generadorAleatorio() {
         int numAle = (int) Math.floor(Math.random() * (15 - 5 + 1) + 5); //Numero aleatorio entre 5 y 15
-        System.out.println(numAle);
         return numAle;
-
     }
 
     public void modificarVBox(VBox v, Jugador jb, int num) {
@@ -385,7 +369,6 @@ public class DetalleEquiposController implements Initializable {
             public void run() {
                 try {
                     Thread.sleep(1000 * num);
-                    System.out.println("Prueba");
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -393,9 +376,7 @@ public class DetalleEquiposController implements Initializable {
                 try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
                     ImageView img = new ImageView();
                     Image imagen = new Image(input);
-                    
                     Platform.runLater(new Runnable() {
-
                         @Override
                         public void run() {
                             img.setImage(imagen);
@@ -403,24 +384,16 @@ public class DetalleEquiposController implements Initializable {
                             img.setPreserveRatio(true);
                             v.getChildren().add(img);
                             v.getChildren().add(lb);
-                            
                         }
-                        
                     });
-
-                    
                 } catch (FileNotFoundException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Imagen de jugador no encontrada.");
                 } catch (IOException e2) {
-                    System.out.println(e2.getMessage());
+                    System.out.println("Error, vuelva a intentar.");
                 }
-                
             }
-
         });
-        
         t1.start();
-
     }
 
     public void mostrarJugador(Jugador jb1) {
@@ -440,14 +413,12 @@ public class DetalleEquiposController implements Initializable {
             img.setImage(imagen);
             img.setFitWidth(100);
             img.setPreserveRatio(true);
-
             vb1.getChildren().add(img);
         } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Imagen de jugador no encontrada.");
         } catch (IOException e2) {
-            System.out.println(e2.getMessage());
+            System.out.println("Error, vuelva a intentar.");
         }
-
         VBox vbpequenio = new VBox();
         vbpequenio.setAlignment(Pos.CENTER);
         vbpequenio.setStyle("-fx-background-color:chartreuse;");
@@ -461,7 +432,6 @@ public class DetalleEquiposController implements Initializable {
         tecnico = tecnico.toUpperCase();
         dato3.setText("DIR. TEC. " + tecnico);
         vbpequenio.getChildren().addAll(dato1, dato2, dato3);
-
         vb1.getChildren().addAll(vbpequenio, lbcontador);
 
         Scene scene = new Scene(vb1, 200, 300);
@@ -472,18 +442,14 @@ public class DetalleEquiposController implements Initializable {
         stage.show();
 
         Thread t1 = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 for (int i = 10; i >= 0; i--) {
                     final int c = i;
                     Platform.runLater(new Runnable() {
-
                         @Override
                         public void run() {
                             lbcontador.setText("Mostrando por " + c + " segundos");
-                            System.out.println(lbcontador.getText());
-
                         }
                     });
 
@@ -492,22 +458,15 @@ public class DetalleEquiposController implements Initializable {
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
-
                 }
                 Platform.runLater(new Runnable() {
-
                     @Override
                     public void run() {
                         stage.close();
-
                     }
                 });
-
             }
         });
-
         t1.start();
-
     }
-
 }

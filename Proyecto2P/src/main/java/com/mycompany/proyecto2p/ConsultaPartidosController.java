@@ -13,7 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -61,9 +60,7 @@ public class ConsultaPartidosController implements Initializable {
     // Lo hice estatico para poder llamarlo en Detalle Equipo
 
     public String getCbEquipo1() {
-
         String nombre = cbEquipo1.getValue();
-
         return nombre;
     }
 
@@ -99,7 +96,6 @@ public class ConsultaPartidosController implements Initializable {
     }
 
     public ArrayList<Partido> crearPartidos(ArrayList<Partido> p) {
-
         ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
         listaPartidos.forEach(linea -> {
             p.add(new Partido(linea.split(",")[0].trim(),
@@ -256,7 +252,6 @@ public class ConsultaPartidosController implements Initializable {
                             new Label(partidoSelecc.getGrupo()),
                             new Label(partidoSelecc.getEstadio()),
                             new Label(partidoSelecc.getCiudad()));
-
                     if (partidoSelecc.compareTo(partidoSelecc) == -1) {
                         VBox vbR = new VBox();
                         vbR.setAlignment(Pos.CENTER);
@@ -285,11 +280,9 @@ public class ConsultaPartidosController implements Initializable {
                         vbR.setPrefWidth(125);
                         hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), vbR, equipoPartido(partidoSelecc.getVisitante()));
                     }
-                    //hbMostranDatos.getChildren().addAll(vbDatosPartido, equipoPartido(partidoSelecc.getLocal()), puntuacionPartido(partidoSelecc), equipoPartido(partidoSelecc.getVisitante()));
                     vbResultados.getChildren().addAll(lbResultado, hbMostranDatos, vbBotones);
                     confirmacion(btnExportarResultados);
                     detalleEquipos(btnDetalleEquipos);
-                    obtenerJugadoresPartido();
                 } else {
                     partidoNoEncontrado();
                 }
@@ -303,7 +296,7 @@ public class ConsultaPartidosController implements Initializable {
         lbEquipo.setFont(new Font(18));
         try {
             ImageView ivBandera = null;
-            try ( FileInputStream input = new FileInputStream(App.pathImg + equipo + ".jpg")) {
+            try (FileInputStream input = new FileInputStream(App.pathImg + equipo + ".jpg")) {
                 Image imagen = new Image(input);
                 ivBandera = new ImageView(imagen);
                 ivBandera.setFitWidth(30);
@@ -324,16 +317,6 @@ public class ConsultaPartidosController implements Initializable {
         return hbEquipo;
     }
 
-//    public VBox puntuacionPartido(Partido p) {
-//        VBox vbR = new VBox();
-//        vbR.setAlignment(Pos.CENTER);
-//        Label lbFinal = new Label("FINAL DEL PARTIDO");
-//        Label lbResultado = new Label(p.getGolesLocalTotal() + "-" + p.getGolesVisitaTotal());
-//        lbResultado.setTextFill(Color.BLUE);
-//        vbR.getChildren().addAll(lbFinal, lbResultado);
-//        vbR.setPrefWidth(125);
-//        return vbR;
-//    }
     public void confirmacion(Button b) {
         b.setOnAction(c -> {
             Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -383,7 +366,7 @@ public class ConsultaPartidosController implements Initializable {
     }
 
     public void serializarJugadores() {
-        try ( ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(App.pathFiles + "listaJugadoresSerializada.bin"))) {
+        try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(App.pathFiles + "listaJugadoresSerializada.bin"))) {
             obOut.writeObject(jugadoresPartido);
             System.out.println("Lista serializada");
         } catch (IOException e) {
@@ -395,6 +378,8 @@ public class ConsultaPartidosController implements Initializable {
     @FXML
     public void detalleEquipos(Button btn) {
         btn.setOnAction(e -> {
+            jugadoresPartido.clear();
+            obtenerJugadoresPartido();
             FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/DetalleEquipos.fxml"));
             Parent root2;
             try {
@@ -406,7 +391,6 @@ public class ConsultaPartidosController implements Initializable {
                 stage.show();
                 Stage stage2 = (Stage) btn.getScene().getWindow();
                 stage2.close();
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
