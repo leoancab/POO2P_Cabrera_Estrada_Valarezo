@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import com.mycompany.proyecto2p.App;
 
 /**
- *
- * @author leoan
- */
+ * Este método se encarga de la lectura de los archivos csv utilizando el chrset UTF_8.
+ * 
+ * @return ArrayList<String> 
+*/
 public class ManejoArchivos {
 
     public static ArrayList<String> LeeFichero(String nombrearchivo) {
@@ -45,7 +46,10 @@ public class ManejoArchivos {
         }
         return lineas;
     }
-
+/**
+ * Este método se encarga de escribir en los archivos csv proporcionados.
+ * @return void
+*/
     public static void EscribirArchivo(String nombreArchivo, String linea) {
         FileWriter fichero = null;
         BufferedWriter bw = null;

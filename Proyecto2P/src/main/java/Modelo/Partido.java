@@ -213,7 +213,15 @@ public class Partido implements Comparable<Partido> {
     public void setInicialVisita(String inicialVisita) {
         this.inicialVisita = inicialVisita;
     }
-
+    /**
+     * Este método se encarga de comparar 2 objetos tipo Partido. Éste es el
+     * método que nos ayuda a ordenar alfabeticamente los equipos de los
+     * partidos. Lo hace obteniendo el primer caracter de cada equipo,
+     * obteniendo su valor y comparandolos el uno al otro para saber cual es
+     * mayor alfabeticamente.
+     *
+     * @return int
+     */
     @Override
     public int compareTo(Partido o) {
         if (Character.valueOf(this.getLocal().charAt(0)) > Character.valueOf(o.getVisitante().charAt(0))) {

@@ -317,6 +317,15 @@ public class DetalleEquiposController implements Initializable {
     @FXML
     private VBox root;
 
+    /**
+     * Este método se encarga de inicializar los diferentes atributos de la
+     * ventana DetalleEquipos.En este metodo tambien se carga aleatoriamente los
+     * datos de los jugadores, utilizando los metodos modificarVBox, y
+     * generadorAleatorio.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ArrayList<Jugador> listequipo1 = new ArrayList();
@@ -354,11 +363,26 @@ public class DetalleEquiposController implements Initializable {
         }
     }
 
+    /**
+     * Este método se encarga de generar un numero aleatorio utilizando la
+     * funcion MathRandom.
+     *
+     * @return int
+     */
     public int generadorAleatorio() {
         int numAle = (int) Math.floor(Math.random() * (15 - 5 + 1) + 5); //Numero aleatorio entre 5 y 15
         return numAle;
     }
 
+    /**
+     * Este método se encarga de modificar y cargar los atributos de cada VBox
+     * de los jugadores, cargando su imagen y nombre.Este metodo tambien se
+     * encarga de hacer que cada jugador aparezca en un tiempo aleatorio.
+     *
+     * @param v VBox que se va a modificar.
+     * @param jb Jugador del que se va a cargar la informacion.
+     * @param num Numero aleatorio.
+     */
     public void modificarVBox(VBox v, Jugador jb, int num) {
         v.getChildren().clear();
         Label lb = new Label();
@@ -373,7 +397,7 @@ public class DetalleEquiposController implements Initializable {
                     ex.printStackTrace();
                 }
 
-                try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
+                try ( FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb.getNombre() + ".jpg")) {
                     ImageView img = new ImageView();
                     Image imagen = new Image(input);
                     Platform.runLater(new Runnable() {
@@ -396,6 +420,14 @@ public class DetalleEquiposController implements Initializable {
         t1.start();
     }
 
+    /**
+     * Este método se encarga de mostrar los datos en un nuevo Stage, que se
+     * cierra luego de 10 segundos utilizando el Thread.sleep.En esta nueva
+     * escena se muestra la imagen del jugador, datos relevantes del jugador y
+     * un contador.
+     *
+     * @param jb1
+     */
     public void mostrarJugador(Jugador jb1) {
         VBox vb1 = new VBox();
         vb1.setAlignment(Pos.CENTER);
@@ -407,7 +439,7 @@ public class DetalleEquiposController implements Initializable {
         vb1.getChildren().add(lb1);
         Label lbcontador = new Label();
 
-        try (FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb1.getNombre() + ".jpg")) {
+        try ( FileInputStream input = new FileInputStream(App.pathImg + "/JUGADORES/" + jb1.getNombre() + ".jpg")) {
             ImageView img = new ImageView();
             Image imagen = new Image(input);
             img.setImage(imagen);

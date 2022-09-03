@@ -54,7 +54,10 @@ public class VentanaPrincipalController implements Initializable {
     private HBox hbBotones;
 
     /**
-     * Initializes the controller class.
+     * Metodo que inicializa el controller de la VentanaPrincipal. En este
+     * metodo se encuentran imagenes que tienen relacion al futbol. Tambien se
+     * encuentran los botones que inicializan otras ventanas como Consulta de
+     * Partidos y Consulta de Mundiales.
      *
      * @param url
      * @param rb
@@ -68,7 +71,7 @@ public class VentanaPrincipalController implements Initializable {
         btnPartidos = new Button("CONSULTA DE PARTIDOS");
         btnCopas = new Button("CONSULTA DE COPAS MUNDIALES");
 
-        try (FileInputStream input = new FileInputStream(App.pathImg + "copa2014.jpg")) {
+        try ( FileInputStream input = new FileInputStream(App.pathImg + "copa2014.jpg")) {
             Image imagen = new Image(input);
             ivCopa = new ImageView(imagen);
             ivCopa.setFitWidth(100);
@@ -78,7 +81,7 @@ public class VentanaPrincipalController implements Initializable {
         } catch (IOException e) {
             System.out.println("Error. Vuelva a intentar.");
         }
-        try (FileInputStream input = new FileInputStream(App.pathImg + "campeones.jpg")) {
+        try ( FileInputStream input = new FileInputStream(App.pathImg + "campeones.jpg")) {
             Image imagen = new Image(input);
             ivCampeones = new ImageView(imagen);
             ivCampeones.setFitWidth(600);
@@ -129,6 +132,11 @@ public class VentanaPrincipalController implements Initializable {
         });
     }
 
+    /**
+     * Este método se encarga de cargar el fxml de Consulta de Partidos,
+     * iniciando su stage.
+     *
+     */
     @FXML
     public void consultaPartidos(Event t) throws IOException {
         FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/ConsultaPartidos.fxml"));
@@ -140,6 +148,11 @@ public class VentanaPrincipalController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Este método se encarga de cargar el fxml de Consulta de Copas, iniciando
+     * su stage.
+     *
+     */
     @FXML
     public void consultaCopas(Event t) throws IOException {
         FXMLLoader fxmLoader = new FXMLLoader(App.class.getResource("/fxml/ConsultaCopas.fxml"));

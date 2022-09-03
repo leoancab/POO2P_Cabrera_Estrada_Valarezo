@@ -74,15 +74,31 @@ public class ConsultaPartidosController implements Initializable {
         llenarEquipos();
         buscarPartido();
     }
-
+  /**
+     * Este método se encarga de llenar el comboBox de fases para ordenar los
+     * equipos.
+     *
+     *
+     */
     public void llenarFases() {
         cbFase.getItems().addAll("Group", "Round of 16", "Quarter-finals", "Semi-finals", "Final");
     }
-
+ /**
+     * Este método se encarga de llenar el comboBox de grupos para proximamente
+     * ordenar los equipos
+     *
+     */
     public void llenarGrupos() {
         cbGrupo.getItems().addAll("A", "B", "C", "D", "E", "F", "G", "H");
     }
 
+    /**
+     * Este método se encarga de crear los objetos Jugador en base a la lectura
+     * del archivo "WorldCupPlayersBrasil2014.csv" y retorna una lista con
+     * estos.
+     *
+     * @return ArrayList
+     */
     public ArrayList<Jugador> crearJugadores() {
         ArrayList<Jugador> jugadores = new ArrayList<>();
         ArrayList<String> listaJugadores = ManejoArchivos.LeeFichero("WorldCupPlayersBrasil2014.csv");
@@ -94,7 +110,13 @@ public class ConsultaPartidosController implements Initializable {
         });
         return jugadores;
     }
-
+ /**
+     * Este método se encarga de crear los objetos Partido en base a la lectura
+     * del archivo "WorldCupPlayersBrasil2014.csv" y retorna una lista con
+     * estos.
+     *
+     * @return ArrayList
+     */
     public ArrayList<Partido> crearPartidos(ArrayList<Partido> p) {
         ArrayList<String> listaPartidos = ManejoArchivos.LeeFichero("WorldCupMatchesBrasil2014.csv");
         listaPartidos.forEach(linea -> {
@@ -112,7 +134,11 @@ public class ConsultaPartidosController implements Initializable {
         });
         return p;
     }
-
+   /**
+     * Este método se encarga de cargar los comboBox de los equipos, verificando
+     * si los valores de los demas comboBox coinciden, separando entre equipos.
+     *
+     */
     public void llenarEquipos() {
         llenarFases();
         cbFase.setOnAction(t -> {
@@ -197,7 +223,11 @@ public class ConsultaPartidosController implements Initializable {
             }
         });
     }
-
+/**
+     * Este método se encarga de lanzar una alerta de tipo ERROR si alguno de
+     * los comboBox necesarios no han sido seleccionados.
+     *
+     */
     public void camposVacios() {
         Alert info = new Alert(Alert.AlertType.ERROR);
         info.setTitle("CAMPOS IMCOMPLETOS");
@@ -206,6 +236,11 @@ public class ConsultaPartidosController implements Initializable {
         info.showAndWait();
     }
 
+    /**
+     * Este método se encarga de lanzar una alerta de tipo ERROR si los equipos
+     * seleccionados no han tenido un partido.
+     *
+     */
     public void partidoNoEncontrado() {
         Alert info = new Alert(Alert.AlertType.ERROR);
         info.setTitle("PARTIDO NO ENCONTRADO");
@@ -213,7 +248,14 @@ public class ConsultaPartidosController implements Initializable {
         info.setContentText("Vuelva a intentar.");
         info.showAndWait();
     }
-
+/**
+     * Este método se encarga de recorrer la lista de partidos, verificando si
+     * alguno de estos partidos cumple las caracteristicas seleccionadas por el
+     * usuario, como fase; grupo y equipos, una vez que lo encuentra se encarga
+     * de buscar su puntaje, ordenarlo alfabeticamente y los carga a la escena
+     * correspondiente.
+     *
+     */
     public void buscarPartido() {
         btnConsultar.setOnAction(t -> {
             vbResultados.getChildren().clear();
@@ -289,7 +331,12 @@ public class ConsultaPartidosController implements Initializable {
             }
         });
     }
-
+/**
+     * Este método se encarga de crear un HBox que incluye todos los datos del
+     * equipo. Como bandera y nombre.
+     *
+     * @return HBox
+     */
     public HBox equipoPartido(String equipo) {
         HBox hbEquipo = new HBox();
         Label lbEquipo = new Label(equipo.toUpperCase());
@@ -316,7 +363,12 @@ public class ConsultaPartidosController implements Initializable {
         hbEquipo.getChildren().add(lbEquipo);
         return hbEquipo;
     }
-
+ /**
+     * Este método se encarga de lanzar una alerta de tipo CONFIRMATION para
+     * confirmar la exportacion del archivo serializado del equipo.
+     *
+     * @param b Boton para la confirmacion de la serializacion.
+     */
     public void confirmacion(Button b) {
         b.setOnAction(c -> {
             Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -331,7 +383,12 @@ public class ConsultaPartidosController implements Initializable {
             }
         });
     }
-
+/**
+     * Este método se encarga de añadir todos los jugadores, que participaron en
+     * el partido seleccionado, a una lista estatica para poder hacer uso de la
+     * misma en otros metodos.
+     *
+     */
     public void obtenerJugadoresPartido() {
         if (cbFase.getValue().equals("Group")) {
             String grupoSelecc = cbGrupo.getValue();
@@ -364,7 +421,12 @@ public class ConsultaPartidosController implements Initializable {
             }
         }
     }
-
+/**
+     * Este método se encarga de serializar los jugadores, es decir crear un
+     * archivo que contiene esa lista para poder ser deserializado en otro
+     * metodo.
+     *
+     */
     public void serializarJugadores() {
         try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(App.pathFiles + "listaJugadoresSerializada.bin"))) {
             obOut.writeObject(jugadoresPartido);
@@ -374,7 +436,12 @@ public class ConsultaPartidosController implements Initializable {
             System.out.println("Error: No se pudo serializar.");
         }
     }
-
+/**
+     * Este método se encarga de crear y cargar un nuevo Stage para mostrar los
+     * detalles de cada equipo participante en un partido.
+     *
+     * @param btn Boton encargado de lanzar el nuevo Stage.
+     */
     @FXML
     public void detalleEquipos(Button btn) {
         btn.setOnAction(e -> {

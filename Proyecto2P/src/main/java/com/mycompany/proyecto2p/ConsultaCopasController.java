@@ -51,7 +51,13 @@ public class ConsultaCopasController implements Initializable {
     private Button btnConsultar;
     @FXML
     private HBox hbDatos;
-
+ /**
+     * Este método se encarga de inicializar la ventana de Copas, aqui se cargan
+     * todos los nodos necesarios al HBox inicial de esta ventana. Éste es el
+     * método que nos enseña cuantas copas mundiales ha ganado cada pais.
+     *
+     * @return void
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         hbTitulo = new HBox();
@@ -83,7 +89,14 @@ public class ConsultaCopasController implements Initializable {
             obtenerMundial(t);
         });
     }
-
+    /**
+     * Este método se encarga de crear un ArrayList de copas, para que cuando se
+     * lo requiera se pueda saber cuantas hay, y que pais la gano. Éste metodo
+     * lee el archivos de WorldCups, y crea objetos tipo Copa para poder acceder
+     * a sus atributos en el futuro sin leer el archivo nuevamente.
+     *
+     * @return ArrayList<Copa>.
+     */
     public ArrayList<Copa> crearCopas() {
         ArrayList<Copa> mundiales = new ArrayList<>();
         ArrayList<String> copas = ManejoArchivos.LeeFichero("WorldCups.csv");
@@ -96,7 +109,20 @@ public class ConsultaCopasController implements Initializable {
         });
         return mundiales;
     }
-
+/**
+     * Éste es el método principal de la ventana ConsultaCopas, se encarga de
+     * verificar si en el año ingresado hubo mundial.Si no lo hubo llama a la
+     * funcion añoIncorrecto para que lance una advertencia.Si hubo mundial,
+     * obtiene las 4 primeras posiciones mediantes metodos de la clase Copa.Una
+     * vez que tiene las posiciones, llama al metodo obtenerBandera, para cargar
+     * la imagen de la bandera y el nombre al HBox correspondiente, asi mismo
+     * llama al metodo imagenesCopa, que busca cuantos mundiales ha ganado ese
+     * equipo y carga la cantidad de copas en imagenes.
+     *
+     * @author leoan
+     * @param t
+     *
+     */
     public void obtenerMundial(ActionEvent t) {
         hbDatos.getChildren().clear();
         if (!listaAños().contains(tfYear.getText())) {
@@ -165,7 +191,12 @@ public class ConsultaCopasController implements Initializable {
         tfYear.clear();
 
     }
-
+ /**
+     * Este método se encarga de crear una lista de Strings que contiene los
+     * años en los que hubo mundiales, para su futuro uso en otros metodos.
+     *
+     * @return ArrayList
+     */
     public ArrayList<String> listaAños() {
         ArrayList<String> years = new ArrayList<>();
         crearCopas().forEach(c -> {
@@ -175,7 +206,14 @@ public class ConsultaCopasController implements Initializable {
         });
         return years;
     }
-
+/**
+     * Este método se encarga obtener la cantidad de copas ganadas por equipo,
+     * esto lo hace por medio de la lista retornada por el metodo crearCopas,
+     * verificando si el nombre es el mismo y sumando a un contador.
+     *
+     * @param equipo recibe el nombre de un equipo para verificar sus copas.
+     * @return int
+     */
     public int obtenerCantidadCopas(String equipo) {
         int copas = 0;
         for (Copa g : crearCopas()) {
@@ -185,7 +223,14 @@ public class ConsultaCopasController implements Initializable {
         }
         return copas;
     }
-
+/**
+     * Este método se encarga de recibir la cantidad de copas que tiene un
+     * equipo, cargar una imagen de una copa por cada una a un HBox, y agregar
+     * este al VBox recibido.
+     *
+     * @param cantidadCopas Cuantas copas ha ganado un equipo.
+     * @param vbCopas El vbox del equipo al cual se agregaran las copas.
+     */
     public void imagenesCopa(int cantidadCopas, VBox vbCopas) {
         HBox hbCopas = new HBox();
         hbCopas.setPrefHeight(20);
@@ -206,7 +251,11 @@ public class ConsultaCopasController implements Initializable {
         vbCopas.getChildren().add(hbCopas);
         vbCopas.setAlignment(Pos.CENTER_LEFT);
     }
-
+ /**
+     * Este método se encarga de lanzar una alerta de tipo ERROR indicando de que el año
+     * ingresado es incorrecto.
+     *
+     */
     public void añoIncorrecto() {
         Alert info = new Alert(Alert.AlertType.ERROR);
         info.setTitle("AÑO INCORRECTO");
@@ -214,7 +263,14 @@ public class ConsultaCopasController implements Initializable {
         info.setContentText("Vuelva a intentar.");
         info.showAndWait();
     }
-
+ /**
+     * Este método se encarga de buscar la bandera del equipo recibido
+     * utilizando su nombre, y la carga al VBox recibido junto al nombre del
+     * equipo.
+     *
+     * @param equipo
+     * @param vbPaises
+     */
     public void obtenerBandera(Label equipo, VBox vbPaises) {
         HBox hbBandera = new HBox();
         hbBandera.setSpacing(5);
